@@ -53,7 +53,7 @@ const Otp = ({ email }) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center bg-background text-foreground px-4 py-10">
+    <div className="w-full h-full flex flex-col justify-center items-center bg-transparent text-white px-4 py-10">
       <img
         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?"
         alt="Logo"
@@ -90,7 +90,7 @@ const Otp = ({ email }) => {
           )}
         </div>
 
-        <Button type="submit" className="w-full text-lg py-6">
+        <Button type="submit" className="w-full text-lg py-6 bg-black/40 text-white border border-white/30 hover:bg-black/60">
           Verify OTP
         </Button>
       </form>
@@ -101,7 +101,7 @@ const Otp = ({ email }) => {
           type="button"
           variant="link"
           onClick={() => console.log("Resend clicked")}
-          className="p-0 h-auto text-base font-semibold"
+          className="p-0 h-auto text-base font-semibold text-white"
         >
           Resend
         </Button>

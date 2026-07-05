@@ -26,7 +26,7 @@ const Forget = ({ setActive }) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center bg-background text-foreground px-4 py-10">
+    <div className="w-full h-full flex flex-col justify-center items-center bg-transparent text-white px-4 py-10">
       <img
         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?"
         alt="Logo"
@@ -52,7 +52,7 @@ const Forget = ({ setActive }) => {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full text-lg py-6">
+        <Button type="submit" className="w-full text-lg py-6 bg-black/40 text-white border border-white/30 hover:bg-black/60">
           Send Reset Link
         </Button>
       </form>
@@ -63,7 +63,7 @@ const Forget = ({ setActive }) => {
         <button
           type="button"
           onClick={() => setActive("login")}
-          className="text-primary font-semibold hover:underline"
+          className="text-white font-semibold hover:underline"
         >
           Back to Login
         </button>

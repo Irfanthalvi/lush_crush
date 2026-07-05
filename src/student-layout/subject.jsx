@@ -65,9 +65,9 @@ const Subject = () => {
               <div
                 key={index}
                 onClick={() => navigate(subject.id)}
-                className="bg-card text-card-foreground border border-border rounded-md flex flex-col transition overflow-hidden cursor-pointer"
+                className="bg-card text-card-foreground border border-border rounded-md flex flex-col transition overflow-hidden cursor-pointer min-h-[300px]"
               >
-                <div className="aspect-[320/200] w-full">
+                <div className="h-48 w-full overflow-hidden flex-shrink-0">
                   <img
                     src={subject.img}
                     alt={subject.title}
@@ -79,8 +79,6 @@ const Subject = () => {
                   />
                 </div>
                 <div className="p-4 flex flex-col flex-1">
-                  <h2 className="text-base font-semibold">{subject.title}</h2>
-                  <p className="text-primary mb-3">{subject.description}</p>
                   <Button className="mt-auto inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition w-fit">
                     Continue Study <ArrowRight size={16} />
                   </Button>

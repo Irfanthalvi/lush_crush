@@ -29,7 +29,7 @@ const Register = ({ setActive }) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center bg-background text-foreground px-4 py-10">
+    <div className="w-full h-full flex flex-col justify-center items-center bg-transparent text-white px-4 py-10">
       {/* Logo */}
       <img
         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg"
@@ -92,7 +92,7 @@ const Register = ({ setActive }) => {
         </div>
 
         {/* Submit */}
-        <Button type="submit" className="w-full text-sm py-5">
+        <Button type="submit" className="w-full text-sm py-5 bg-black/40 text-white border border-white/30 hover:bg-black/60">
           Register
         </Button>
       </form>

@@ -28,7 +28,7 @@ const LoginForm = ({ setActive }) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center px-4 py-10 bg-background text-foreground">
+    <div className="w-full h-full flex flex-col justify-center items-center px-4 py-10 bg-transparent text-white">
       <img
         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?"
         alt="Logo"
@@ -59,7 +59,7 @@ const LoginForm = ({ setActive }) => {
               variant="link"
               type="button"
               onClick={() => setActive("forget")}
-              className="text-sm p-0 h-auto"
+              className="text-sm p-0 h-auto text-white"
             >
               Forgot password?
             </Button>
@@ -85,7 +85,7 @@ const LoginForm = ({ setActive }) => {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full text-lg">
+        <Button type="submit" className="w-full text-lg bg-black/40 text-white border border-white/30 hover:bg-black/60">
           Sign in
         </Button>
       </form>
@@ -96,7 +96,7 @@ const LoginForm = ({ setActive }) => {
           variant="link"
           type="button"
           onClick={() => setActive("register")}
-          className="text-base font-semibold p-0 h-auto"
+          className="text-base font-semibold p-0 h-auto text-white"
         >
           Register now
         </Button>
