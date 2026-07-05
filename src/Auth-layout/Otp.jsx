@@ -90,7 +90,7 @@ const Otp = ({ email }) => {
           )}
         </div>
 
-        <Button type="submit" className="w-full text-lg py-6 bg-black/40 text-white border border-white/30 hover:bg-black/60">
+        <Button type="submit" className="w-full text-lg py-6 bg-black/40 text-white border border-white/30 hover:bg-black/60 hover:text-white">
           Verify OTP
         </Button>
       </form>

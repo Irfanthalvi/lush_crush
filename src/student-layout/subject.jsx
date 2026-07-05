@@ -65,21 +65,21 @@ const Subject = () => {
               <div
                 key={index}
                 onClick={() => navigate(subject.id)}
-                className="bg-card text-card-foreground border border-border rounded-md flex flex-col transition overflow-hidden cursor-pointer min-h-[300px]"
+                className="group bg-card text-card-foreground border border-border rounded-md flex flex-col transition-all duration-300 overflow-hidden cursor-pointer"
               >
                 <div className="h-48 w-full overflow-hidden flex-shrink-0">
                   <img
                     src={subject.img}
                     alt={subject.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = "/fallback-image.png";
                     }}
                   />
                 </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <Button className="mt-auto inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition w-fit">
+                <div className="p-3">
+                  <Button className="w-full inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition">
                     Continue Study <ArrowRight size={16} />
                   </Button>
                 </div>

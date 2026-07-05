@@ -92,7 +92,7 @@ const Register = ({ setActive }) => {
         </div>
 
         {/* Submit */}
-        <Button type="submit" className="w-full text-sm py-5 bg-black/40 text-white border border-white/30 hover:bg-black/60">
+        <Button type="submit" className="w-full text-sm py-5 bg-black/40 text-white border border-white/30 hover:bg-black/60 hover:text-white">
           Register
         </Button>
       </form>

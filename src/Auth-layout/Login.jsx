@@ -84,8 +84,7 @@ const LoginForm = ({ setActive }) => {
           )}
         </div>
 
-        {/* Submit Button */}
-        <Button type="submit" className="w-full text-lg bg-black/40 text-white border border-white/30 hover:bg-black/60">
+        <Button type="submit" className="w-full text-lg bg-black/40 text-white border border-white/30 hover:bg-black/60 hover:text-white">
           Sign in
         </Button>
       </form>
