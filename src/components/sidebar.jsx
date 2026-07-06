@@ -1,6 +1,6 @@
 "use client";
 import { NavLink } from "react-router-dom";
-import { Layers, NotebookPen, List, Popsicle, Lollipop } from "lucide-react";
+import { Layers, NotebookPen, List, Popsicle, Lollipop, Beaker, CupSoda, PillBottle, Sandwich, Cake, Gift } from "lucide-react";
 
 const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
   return (
@@ -95,7 +95,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Lollipop size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Greek-Yogurt-Popsicles</span>}
         </NavLink>
         <NavLink
@@ -109,7 +109,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Popsicle size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Fruity-Blitz-Popsicles</span>}
         </NavLink>
         <NavLink
@@ -123,7 +123,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Lollipop size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Sugar-Free-Popsicles</span>}
         </NavLink>
         <NavLink
@@ -137,7 +137,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Popsicle size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Probiotics-Popsicles</span>}
         </NavLink>
         <NavLink
@@ -151,7 +151,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <CupSoda size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Cup-For-One</span>}
         </NavLink>
         <NavLink
@@ -165,7 +165,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Beaker size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Tubs</span>}
         </NavLink>
         <NavLink
@@ -179,7 +179,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <PillBottle size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Jars</span>}
         </NavLink>
         <NavLink
@@ -193,7 +193,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Sandwich size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Sandwich</span>}
         </NavLink>
         <NavLink
@@ -207,7 +207,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Cake size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Ice-Cream-Cakes</span>}
         </NavLink>
         <NavLink
@@ -221,7 +221,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
             }`
           }
         >
-          <List size={20} className="shrink-0" />
+          <Gift size={20} className="shrink-0" />
           {isSidebarOpen && <span className="truncate">Boxes</span>}
         </NavLink>
         <NavLink
