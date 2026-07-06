@@ -1,17 +1,16 @@
 "use client";
 import { NavLink } from "react-router-dom";
-import { Layers, NotebookPen, List } from "lucide-react";
+import { Layers, NotebookPen, List, Popsicle, Lollipop } from "lucide-react";
 
 const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
   return (
     <aside
       className={`fixed top-0 left-0 z-50 h-full bg-background border-r border-border flex flex-col transition-all duration-300
-        ${
-          isMobile
-            ? isSidebarOpen
-              ? "translate-x-0 w-full max-w-[500px]"
-              : "-translate-x-full w-full max-w-[260px]"
-            : isSidebarOpen
+        ${isMobile
+          ? isSidebarOpen
+            ? "translate-x-0 w-full max-w-[500px]"
+            : "-translate-x-full w-full max-w-[260px]"
+          : isSidebarOpen
             ? "w-[260px]" /* fixed width when open */
             : "w-[70px]" /* fixed width when collapsed */
         }
@@ -25,7 +24,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           </div>
           {isSidebarOpen && !isMobile && (
             <span className="font-monstrat-hadding text-lg font-semibold whitespace-nowrap overflow-hidden">
-              School System
+              LUSH CRUSH <span className="text-[#D0021B]"></span>
             </span>
           )}
         </div>
@@ -47,15 +46,14 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${
-               isActive
-                 ? "bg-accent text-accent-foreground"
-                 : "hover:bg-muted hover:text-foreground"
-             }`
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
           }
         >
           <NotebookPen size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Subjects</span>}
+          {isSidebarOpen && <span className="truncate">Creamy-Range-Popsicles</span>}
         </NavLink>
 
         <NavLink
@@ -63,15 +61,182 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${
-               isActive
-                 ? "bg-accent text-accent-foreground"
-                 : "hover:bg-muted hover:text-foreground"
-             }`
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <Lollipop size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Icy-Range-Popsicles</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <Popsicle size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Cake-Popsicles</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
           }
         >
           <List size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Create-Assessment</span>}
+          {isSidebarOpen && <span className="truncate">Greek-Yogurt-Popsicles</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Fruity-Blitz-Popsicles</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Sugar-Free-Popsicles</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Probiotics-Popsicles</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Cup-For-One</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Tubs</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Jars</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Sandwich</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Ice-Cream-Cakes</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Boxes</span>}
+        </NavLink>
+        <NavLink
+          to="/create-assessment"
+          onClick={closeSidebar}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+             ${isActive
+              ? "bg-accent text-accent-foreground"
+              : "hover:bg-muted hover:text-foreground"
+            }`
+          }
+        >
+          <List size={20} className="shrink-0" />
+          {isSidebarOpen && <span className="truncate">Deals-For-All</span>}
         </NavLink>
       </nav>
     </aside>
