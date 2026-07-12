@@ -1,13 +1,9 @@
-import { Suspense, lazy, useRef, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-  useParams,
-  Navigate,
-} from "react-router-dom";
+// src/App.jsx
+import React, { Suspense, lazy, useRef, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation, useParams, Navigate } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
+import { Provider } from "react-redux";
+import store from "@/lib/store";
 import NotFound from "@/components/subject/not-found";
 
 // Lazy loaded components
@@ -29,106 +25,29 @@ const IceCreamCakes = lazy(() => import("@/student-layout/ice-cream-cakes.jsx"))
 const Boxes = lazy(() => import("@/student-layout/boxes.jsx"));
 const DealsForAll = lazy(() => import("@/student-layout/deals-for-all.jsx"));
 
-// 📌 Centralized Titles + Descriptions
+// Centralized titles
 const titlesConfig = [
-  {
-    path: "/",
-    title: "Login",
-    description: "Login to access your School System dashboard.",
-  },
-  {
-    path: "/login",
-    title: "Login",
-    description: "Login to access your School System dashboard.",
-  },
-  {
-    path: "/register",
-    title: "Register",
-    description: "Create your School System account.",
-  },
-  {
-    path: "/forget",
-    title: "Forgot Password",
-    description: "Recover your School System account.",
-  },
-  {
-    path: "/otp",
-    title: "Verify OTP",
-    description: "Verify your identity using OTP.",
-  },
-  {
-    path: "/creamy-range-popsicles",
-    title: "Creamy Range Popsicles",
-    description: "Browse all Creamy Range Popsicles.",
-  },
-  {
-    path: "/icy-range-popsicles",
-    title: "Icy Range Popsicles",
-    description: "Browse all Icy Range Popsicles.",
-  },
-  {
-    path: "/cake-popsicles",
-    title: "Cake Popsicles",
-    description: "Browse all Cake Popsicles.",
-  },
-  {
-    path: "/greek-yogurt-popsicles",
-    title: "Greek Yogurt Popsicles",
-    description: "Browse all Greek Yogurt Popsicles.",
-  },
-  {
-    path: "/fruity-blitz-popsicles",
-    title: "Fruity Blitz Popsicles",
-    description: "Browse all Fruity Blitz Popsicles.",
-  },
-  {
-    path: "/sugar-free-popsicles",
-    title: "Sugar Free Popsicles",
-    description: "Browse all Sugar Free Popsicles.",
-  },
-  {
-    path: "/probiotics-popsicles",
-    title: "Probiotics Popsicles",
-    description: "Browse all Probiotics Popsicles.",
-  },
-  {
-    path: "/cup-for-one",
-    title: "Cup For One",
-    description: "Browse all Cups For One.",
-  },
-  {
-    path: "/tubs",
-    title: "Tubs",
-    description: "Browse all Tubs.",
-  },
-  {
-    path: "/jars",
-    title: "Jars",
-    description: "Browse all Jars.",
-  },
-  {
-    path: "/sandwich",
-    title: "Sandwich",
-    description: "Browse all Sandwich ice creams.",
-  },
-  {
-    path: "/ice-cream-cakes",
-    title: "Ice Cream Cakes",
-    description: "Browse all Ice Cream Cakes.",
-  },
-  {
-    path: "/boxes",
-    title: "Boxes",
-    description: "Browse all Boxes.",
-  },
-  {
-    path: "/deals-for-all",
-    title: "Deals For All",
-    description: "Browse all Deals For All.",
-  },
+  { path: "/", title: "Login", description: "Login to access your School System dashboard." },
+  { path: "/login", title: "Login", description: "Login to access your School System dashboard." },
+  { path: "/register", title: "Register", description: "Create your School System account." },
+  { path: "/forget", title: "Forgot Password", description: "Recover your School System account." },
+  { path: "/otp", title: "Verify OTP", description: "Verify your identity using OTP." },
+  { path: "/creamy-range-popsicles", title: "Creamy Range Popsicles", description: "Browse all Creamy Range Popsicles." },
+  { path: "/icy-range-popsicles", title: "Icy Range Popsicles", description: "Browse all Icy Range Popsicles." },
+  { path: "/cake-popsicles", title: "Cake Popsicles", description: "Browse all Cake Popsicles." },
+  { path: "/greek-yogurt-popsicles", title: "Greek Yogurt Popsicles", description: "Browse all Greek Yogurt Popsicles." },
+  { path: "/fruity-blitz-popsicles", title: "Fruity Blitz Popsicles", description: "Browse all Fruity Blitz Popsicles." },
+  { path: "/sugar-free-popsicles", title: "Sugar Free Popsicles", description: "Browse all Sugar Free Popsicles." },
+  { path: "/probiotics-popsicles", title: "Probiotics Popsicles", description: "Browse all Probiotics Popsicles." },
+  { path: "/cup-for-one", title: "Cup For One", description: "Browse all Cups For One." },
+  { path: "/tubs", title: "Tubs", description: "Browse all Tubs." },
+  { path: "/jars", title: "Jars", description: "Browse all Jars." },
+  { path: "/sandwich", title: "Sandwich", description: "Browse all Sandwich ice creams." },
+  { path: "/ice-cream-cakes", title: "Ice Cream Cakes", description: "Browse all Ice Cream Cakes." },
+  { path: "/boxes", title: "Boxes", description: "Browse all Boxes." },
+  { path: "/deals-for-all", title: "Deals For All", description: "Browse all Deals For All." },
 ];
 
-// 📌 Title Manager Component
 function TitleManager() {
   const location = useLocation();
   const params = useParams();
@@ -138,26 +57,17 @@ function TitleManager() {
     let title = "School System";
     let description = "School System dashboard and learning platform.";
 
-    // Exact matches first
-    const found = titlesConfig.find((item) => item.path === path);
+    const found = titlesConfig.find(item => item.path === path);
     if (found) {
       title = found.title;
       description = found.description;
     }
 
-
-
-    // ✅ Set document.title
     document.title = title;
-
-    // ✅ Update meta description
-    const metaDescription = document.querySelector("meta[name='description']");
-    if (metaDescription) {
-      metaDescription.setAttribute("content", description);
-    } else {
-      const meta = document.createElement("meta");
-      meta.name = "description";
-      meta.content = description;
+    const meta = document.querySelector("meta[name='description']") || document.createElement("meta");
+    meta.name = "description";
+    meta.content = description;
+    if (!document.querySelector("meta[name='description']")) {
       document.head.appendChild(meta);
     }
   }, [location, params]);
@@ -165,192 +75,47 @@ function TitleManager() {
   return null;
 }
 
-// 📌 Route Change Loading Bar
 function RouteChangeLoader({ loadingBarRef }) {
   const location = useLocation();
 
   useEffect(() => {
     loadingBarRef.current?.continuousStart();
-    const timeout = setTimeout(() => {
-      loadingBarRef.current?.complete();
-    }, 400);
+    const timeout = setTimeout(() => loadingBarRef.current?.complete(), 400);
     return () => clearTimeout(timeout);
   }, [location]);
 
   return null;
 }
 
-// 📌 App Router Wrapper
 function AppRoutes({ loadingBarRef }) {
   return (
     <>
       <RouteChangeLoader loadingBarRef={loadingBarRef} />
       <TitleManager />
-      <Suspense
-        fallback={
-          <div className="flex items-center justify-center h-screen text-xl">
-            Loading...
-          </div>
-        }
-      >
+      <Suspense fallback={<div className="flex items-center justify-center h-screen text-xl">Loading...</div>}>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <AuthLayout>
-                <LoginPage />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <AuthLayout>
-                <LoginPage activeForm="login" />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <AuthLayout>
-                <LoginPage activeForm="register" />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/forget"
-            element={
-              <AuthLayout>
-                <LoginPage activeForm="forget" />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/otp"
-            element={
-              <AuthLayout>
-                <LoginPage activeForm="otp" />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/subjects"
-            element={<Navigate to="/creamy-range-popsicles" replace />}
-          />
-          <Route
-            path="/creamy-range-popsicles"
-            element={
-              <DashboardLayout>
-                <CreamyRangePopsicles />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/icy-range-popsicles"
-            element={
-              <DashboardLayout>
-                <IcyRangePopsicles />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/cake-popsicles"
-            element={
-              <DashboardLayout>
-                <CakePopsicles />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/greek-yogurt-popsicles"
-            element={
-              <DashboardLayout>
-                <GreekYogurtPopsicles />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/fruity-blitz-popsicles"
-            element={
-              <DashboardLayout>
-                <FruityBlitzPopsicles />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/sugar-free-popsicles"
-            element={
-              <DashboardLayout>
-                <SugarFreePopsicles />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/probiotics-popsicles"
-            element={
-              <DashboardLayout>
-                <ProbioticsPopsicles />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/cup-for-one"
-            element={
-              <DashboardLayout>
-                <CupForOne />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/tubs"
-            element={
-              <DashboardLayout>
-                <Tubs />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/jars"
-            element={
-              <DashboardLayout>
-                <Jars />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/sandwich"
-            element={
-              <DashboardLayout>
-                <Sandwich />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/ice-cream-cakes"
-            element={
-              <DashboardLayout>
-                <IceCreamCakes />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/boxes"
-            element={
-              <DashboardLayout>
-                <Boxes />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/deals-for-all"
-            element={
-              <DashboardLayout>
-                <DealsForAll />
-              </DashboardLayout>
-            }
-          />
-
+          <Route path="/" element={<AuthLayout><LoginPage /></AuthLayout>} />
+          <Route path="/login" element={<AuthLayout><LoginPage activeForm="login" /></AuthLayout>} />
+          <Route path="/register" element={<AuthLayout><LoginPage activeForm="register" /></AuthLayout>} />
+          <Route path="/forget" element={<AuthLayout><LoginPage activeForm="forget" /></AuthLayout>} />
+          <Route path="/otp" element={<AuthLayout><LoginPage activeForm="otp" /></AuthLayout>} />
+          <Route path="/subjects" element={<Navigate to="/creamy-range-popsicles" replace />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/creamy-range-popsicles" element={<CreamyRangePopsicles />} />
+            <Route path="/icy-range-popsicles" element={<IcyRangePopsicles />} />
+            <Route path="/cake-popsicles" element={<CakePopsicles />} />
+            <Route path="/greek-yogurt-popsicles" element={<GreekYogurtPopsicles />} />
+            <Route path="/fruity-blitz-popsicles" element={<FruityBlitzPopsicles />} />
+            <Route path="/sugar-free-popsicles" element={<SugarFreePopsicles />} />
+            <Route path="/probiotics-popsicles" element={<ProbioticsPopsicles />} />
+            <Route path="/cup-for-one" element={<CupForOne />} />
+            <Route path="/tubs" element={<Tubs />} />
+            <Route path="/jars" element={<Jars />} />
+            <Route path="/sandwich" element={<Sandwich />} />
+            <Route path="/ice-cream-cakes" element={<IceCreamCakes />} />
+            <Route path="/boxes" element={<Boxes />} />
+            <Route path="/deals-for-all" element={<DealsForAll />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
@@ -358,20 +123,15 @@ function AppRoutes({ loadingBarRef }) {
   );
 }
 
-// ✅ Final App component
 function App() {
   const loadingBarRef = useRef(null);
-
   return (
-    <Router>
-      <LoadingBar
-        color="var(--primary)"
-        ref={loadingBarRef}
-        height={2}
-        shadow={true}
-      />
-      <AppRoutes loadingBarRef={loadingBarRef} />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <LoadingBar color="var(--primary)" ref={loadingBarRef} height={2} shadow={true} />
+        <AppRoutes loadingBarRef={loadingBarRef} />
+      </Router>
+    </Provider>
   );
 }
 

@@ -38,7 +38,7 @@ const ItemDrawer = ({
         className={`
           fixed top-[75px] right-0 bottom-0 z-20
           w-full sm:w-[420px]
-          bg-background border-l border-border
+          bg-background/90 border-l border-border
           flex flex-col
           shadow-2xl
           transition-transform duration-300 ease-in-out
@@ -119,7 +119,7 @@ const ItemDrawer = ({
               <div className="grid grid-cols-[2fr_1fr_auto] gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide border-b border-border mb-1">
                 <span>Item</span>
                 <span className="text-center">Qty</span>
-                <span className="w-8"></span>
+                <span className="w-8" />
               </div>
 
               {/* Table Rows */}
@@ -148,12 +148,8 @@ const ItemDrawer = ({
                         />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-sm font-medium font-monstrat-hadding truncate leading-tight">
-                          {cartItem.title}
-                        </p>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {cartItem.label}
-                        </p>
+                        <p className="text-sm font-medium font-monstrat-hadding truncate leading-tight">{cartItem.title}</p>
+                        <p className="text-xs text-muted-foreground truncate">{cartItem.label}</p>
                       </div>
                     </div>
 
@@ -166,9 +162,7 @@ const ItemDrawer = ({
                       >
                         <Minus size={10} />
                       </button>
-                      <span className="w-5 text-center font-bold text-sm">
-                        {count}
-                      </span>
+                      <span className="w-5 text-center font-bold text-sm">{count}</span>
                       <button
                         onClick={() => onIncrement(cartItem)}
                         className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted transition-colors text-xs"
@@ -205,14 +199,8 @@ const ItemDrawer = ({
           <Button
             className="flex-1 font-monstrat-hadding"
             onClick={onDone}
-            disabled={cartList.length === 0}
           >
             Done
-            {totalItems > 0 && (
-              <span className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full bg-primary-foreground/20 text-xs">
-                {totalItems}
-              </span>
-            )}
           </Button>
         </div>
       </div>

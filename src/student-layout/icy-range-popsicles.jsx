@@ -4,16 +4,18 @@ import { icyRangeData } from "@/components/subject/icy-range-data";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchFilterSubject from "@/components/subject/searchfilter-subject";
-import ItemDrawer from "@/components/subject/item-drawer";
+import { useDispatch, useSelector } from "react-redux";
+import { openDrawer } from "@/lib/drawerSlice";
+import { addItem } from "@/lib/cartSlice";
 
 const IcyRangePopsicles = () => {
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(8);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [cartItems, setCartItems] = useState({});
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -23,32 +25,10 @@ const IcyRangePopsicles = () => {
   const handleLoadMore = () => setVisibleCount((prev) => prev + 8);
 
   const handleCardClick = (item) => {
-    setSelectedItem(item);
-    setDrawerOpen(true);
-    setCartItems((prev) => {
-      if (!prev[item.id]) return { ...prev, [item.id]: { item, count: 1 } };
-      return prev;
-    });
-  };
-
-  const handleIncrement = (item) => {
-    const target = item || selectedItem;
-    if (!target) return;
-    setCartItems((prev) => ({ ...prev, [target.id]: { item: target, count: (prev[target.id]?.count || 0) + 1 } }));
-  };
-
-  const handleDecrement = (item) => {
-    const target = item || selectedItem;
-    if (!target) return;
-    setCartItems((prev) => {
-      const current = prev[target.id]?.count || 0;
-      if (current <= 1) { const next = { ...prev }; delete next[target.id]; return next; }
-      return { ...prev, [target.id]: { item: target, count: current - 1 } };
-    });
-  };
-
-  const handleRemove = (item) => {
-    setCartItems((prev) => { const next = { ...prev }; delete next[item.id]; return next; });
+    dispatch(openDrawer(item));
+    if (!cartItems[item.id]) {
+      dispatch(addItem({ item }));
+    }
   };
 
   const filteredSubjects = icyRangeData.filter((subject) => {
@@ -91,7 +71,6 @@ const IcyRangePopsicles = () => {
       {!loading && hasMore && (
         <div className="flex justify-center mt-8"><Button onClick={handleLoadMore} className="bg-muted text-muted-foreground hover:bg-muted/80 transition">Load More</Button></div>
       )}
-      <ItemDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} item={selectedItem} cartItems={cartItems} onIncrement={handleIncrement} onDecrement={handleDecrement} onRemove={handleRemove} onDone={() => setDrawerOpen(false)} onCancel={() => setDrawerOpen(false)} />
     </div>
   );
 };

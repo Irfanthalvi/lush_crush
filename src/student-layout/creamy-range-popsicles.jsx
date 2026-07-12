@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { creamyRangeData } from "@/components/subject/creamy-range-data";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchFilterSubject from "@/components/subject/searchfilter-subject";
-import ItemDrawer from "@/components/subject/item-drawer";
+import { useDispatch, useSelector } from "react-redux";
+import { openDrawer } from "@/lib/drawerSlice";
+import { addItem } from "@/lib/cartSlice";
 
 const CreamyRangePopsicles = () => {
   const [loading, setLoading] = useState(true);
@@ -12,10 +14,8 @@ const CreamyRangePopsicles = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  // cartItems: { [id]: { item, count } }
-  const [cartItems, setCartItems] = useState({});
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -25,61 +25,10 @@ const CreamyRangePopsicles = () => {
   const handleLoadMore = () => setVisibleCount((prev) => prev + 8);
 
   const handleCardClick = (item) => {
-    setSelectedItem(item);
-    setDrawerOpen(true);
-    // Agar item pehle se cart mein nahi, to add karo
-    setCartItems((prev) => {
-      if (!prev[item.id]) {
-        return { ...prev, [item.id]: { item, count: 1 } };
-      }
-      return prev;
-    });
-  };
-
-  const handleIncrement = (item) => {
-    const target = item || selectedItem;
-    if (!target) return;
-    setCartItems((prev) => ({
-      ...prev,
-      [target.id]: {
-        item: target,
-        count: (prev[target.id]?.count || 0) + 1,
-      },
-    }));
-  };
-
-  const handleDecrement = (item) => {
-    const target = item || selectedItem;
-    if (!target) return;
-    setCartItems((prev) => {
-      const current = prev[target.id]?.count || 0;
-      if (current <= 1) {
-        // count 0 pe remove karo
-        const next = { ...prev };
-        delete next[target.id];
-        return next;
-      }
-      return {
-        ...prev,
-        [target.id]: { item: target, count: current - 1 },
-      };
-    });
-  };
-
-  const handleRemove = (item) => {
-    setCartItems((prev) => {
-      const next = { ...prev };
-      delete next[item.id];
-      return next;
-    });
-  };
-
-  const handleDone = () => {
-    setDrawerOpen(false);
-  };
-
-  const handleCancel = () => {
-    setDrawerOpen(false);
+    dispatch(openDrawer(item));
+    if (!cartItems[item.id]) {
+      dispatch(addItem({ item }));
+    }
   };
 
   // Filter + Search logic
@@ -173,19 +122,6 @@ const CreamyRangePopsicles = () => {
           </Button>
         </div>
       )}
-
-      {/* Item Details Drawer */}
-      <ItemDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        item={selectedItem}
-        cartItems={cartItems}
-        onIncrement={handleIncrement}
-        onDecrement={handleDecrement}
-        onRemove={handleRemove}
-        onDone={handleDone}
-        onCancel={handleCancel}
-      />
     </div>
   );
 };

@@ -1,100 +1,100 @@
 export const creamyRangeData = [
   {
-    id: "/chapter/english",
-    label: "English",
+    id: "strawberry-n-cream",
+    label: "Strawberry N Cream",
     title: "Strawberry N Cream",
-    description: "Improve grammar, comprehension, and essay writing skills.",
+    description: "Rich, creamy milk base blended with fresh sweet strawberries.",
     img: "/images/pop-1.jpg"
   },
   {
-    id: "/chapter/urdu",
-    label: "Urdu",
+    id: "sprinkle-bell-vanilla",
+    label: "Sprinkle Bell Vanilla",
     title: "Sprinkle Bell Vanilla",
-    description: "Mazameen, Ghazal, Nazm aur Urdu grammar ka jaiza lein.",
+    description: "Classic vanilla cream popsicle loaded with colorful, fun sprinkles.",
     img: "/images/pop-2.jpg"
   },
   {
-    id: "/chapter/islamiat",
-    label: "Islamiat",
+    id: "salted-caramel",
+    label: "Salted Caramel",
     title: "Salted Caramel",
-    description: "Seerat-un-Nabi, basic beliefs, aur Quranic ayat ka mutala.",
+    description: "Buttery sweet caramel ice cream bar with a touch of sea salt.",
     img: "/images/pop-3.jpg"
   },
   {
-    id: "/chapter/pakstudies",
-    label: "Pakistan Studies",
+    id: "double-dutch",
+    label: "Double Dutch",
     title: "Double Dutch",
-    description: "History, ideology, geography and current issues of Pakistan.",
+    description: "Double chocolate chunk creamy fudge ice cream popsicle.",
     img: "/images/pop-4.jpg"
   },
   {
-    id: "/chapter/math",
-    label: "Mathematics",
+    id: "triple-dutch",
+    label: "Triple Dutch",
     title: "Triple Dutch",
-    description: "Practice problems on algebra, geometry, and calculus concepts.",
+    description: "Premium triple chocolate blend for the ultimate chocolate lovers.",
     img: "/images/pop-5.jpg"
   },
   {
-    id: "/chapter/physics",
-    label: "Physics",
+    id: "capp-a-chillo",
+    label: "Capp-a-Chillo",
     title: "Capp-a-Chillo",
-    description: "Study mechanics, waves, and thermodynamics for Class 11.",
+    description: "Smooth, bold coffee flavored cream pop with a chocolate drizzle.",
     img: "/images/pop-6.jpg"
   },
   {
-    id: "/chapter/chemistry",
-    label: "Chemistry",
+    id: "oreo-cookie-cream",
+    label: "Oreo Cookie & Cream",
     title: "Oreo Cookie & Cream",
-    description: "Organic, inorganic, and physical chemistry topics.",
+    description: "Crushed chocolate cookies folded into sweet vanilla cream ice cream.",
     img: "/images/pop-7.png"
   },
   {
-    id: "/chapter/biology",
-    label: "Biology",
+    id: "pista-cream",
+    label: "Pista & Cream",
     title: "Pista & Cream",
-    description: "Cell biology, genetics, and human anatomy basics.",
+    description: "Fragrant pistachio flavored creamy ice cream pop topped with nuts.",
     img: "/images/pop-8.jpg"
   },
   {
-    id: "/chapter/cs",
-    label: "Computer Science",
+    id: "creamy-coconut",
+    label: "Creamy Coconut",
     title: "Creamy Coconut",
-    description: "Logic building, programming, and software fundamentals.",
+    description: "Exotic coconut cream bar with shredded real coconut flakes.",
     img: "/images/pop-9.jpg"
   },
   {
-    id: "/chapter/gk",
-    label: "General Knowledge",
+    id: "nutella-fudge",
+    label: "Nutella Fudge",
     title: "Nutella Fudge",
-    description: "Current affairs, world history, science & everyday knowledge.",
+    description: "Decadent fudge popsicle made with rich hazelnut Nutella spread.",
     img: "/images/pop-10.jpg"
   },
   {
-    id: "/chapter/peanut-butter-choc",
+    id: "peanut-butter-choc",
     label: "Peanut Butter Choc",
     title: "Peanut Butter Choc",
-    description: "Current affairs, world history, science & everyday knowledge.",
+    description: "Creamy peanut butter ice cream with rich chocolate swirls.",
     img: "/images/pop-11.jpg"
   },
   {
-    id: "/chapter/choc-bar",
+    id: "choc-bar",
     label: "Choc Bar",
     title: "Choc Bar",
-    description: "Current affairs, world history, science & everyday knowledge.",
+    description: "Classic vanilla cream bar dipped in a crisp milk chocolate shell.",
     img: "/images/pop-12.jpg"
   },
   {
-    id: "/chapter/special-kunafa",
+    id: "special-kunafa",
     label: "Special Kunafa",
     title: "Special Kunafa",
-    description: "Current affairs, world history, science & everyday knowledge.",
+    description: "Authentic Middle Eastern dessert-inspired kunafa cream pop.",
     img: "/images/pop-13.jpg"
   },
   {
-    id: "/chapter/matcha-berry",
+    id: "matcha-berry",
     label: "Matcha Berry",
     title: "Matcha Berry",
-    description: "Current affairs, world history, science & everyday knowledge.",
+    description: "Earthiest Japanese green tea matcha paired with sweet wild berry cream.",
     img: "/images/pop-14.jpg"
   }
 ];
