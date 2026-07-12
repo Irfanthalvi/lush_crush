@@ -17,13 +17,16 @@ const SearchFilterSubject = ({
   setFilter,
   subjects,
 }) => {
+  // Unique titles from the data (product names)
+  const uniqueTitles = Array.from(new Set(subjects.map((sub) => sub.title)));
+
   return (
     <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
       {/* Search Input */}
       <div className="w-full sm:w-56">
         <Input
           type="text"
-          placeholder="Search subjects..."
+          placeholder="Search items..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="
@@ -39,7 +42,7 @@ const SearchFilterSubject = ({
         />
       </div>
 
-      {/* Filter Dropdown */}
+      {/* Filter Dropdown - by product title */}
       <div className="w-full sm:w-56">
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger
@@ -55,19 +58,19 @@ const SearchFilterSubject = ({
               cursor-pointer
             "
           >
-            <SelectValue placeholder="Filter by subject" />
+            <SelectValue placeholder="Filter by item" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all" className="cursor-pointer">
-              All Subjects
+              All Items
             </SelectItem>
-            {Array.from(new Set(subjects.map((sub) => sub.label))).map((label) => (
+            {uniqueTitles.map((title) => (
               <SelectItem
-                key={label}
-                value={label.toLowerCase()}
+                key={title}
+                value={title.toLowerCase()}
                 className="cursor-pointer"
               >
-                {label}
+                {title}
               </SelectItem>
             ))}
           </SelectContent>

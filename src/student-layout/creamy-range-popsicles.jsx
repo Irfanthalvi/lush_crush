@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { creamyRangeData } from "@/components/subject/creamy-range-data";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,8 @@ const CreamyRangePopsicles = () => {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [clickCounts, setClickCounts] = useState({});
+  // cartItems: { [id]: { item, count } }
+  const [cartItems, setCartItems] = useState({});
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -25,29 +26,60 @@ const CreamyRangePopsicles = () => {
 
   const handleCardClick = (item) => {
     setSelectedItem(item);
-    setClickCounts((prev) => ({
-      ...prev,
-      [item.id]: (prev[item.id] || 0) + 1,
-    }));
     setDrawerOpen(true);
+    // Agar item pehle se cart mein nahi, to add karo
+    setCartItems((prev) => {
+      if (!prev[item.id]) {
+        return { ...prev, [item.id]: { item, count: 1 } };
+      }
+      return prev;
+    });
   };
 
-  const handleIncrement = () => {
-    if (selectedItem) {
-      setClickCounts((prev) => ({
-        ...prev,
-        [selectedItem.id]: (prev[selectedItem.id] || 0) + 1,
-      }));
-    }
+  const handleIncrement = (item) => {
+    const target = item || selectedItem;
+    if (!target) return;
+    setCartItems((prev) => ({
+      ...prev,
+      [target.id]: {
+        item: target,
+        count: (prev[target.id]?.count || 0) + 1,
+      },
+    }));
   };
 
-  const handleDecrement = () => {
-    if (selectedItem && (clickCounts[selectedItem.id] || 0) > 0) {
-      setClickCounts((prev) => ({
+  const handleDecrement = (item) => {
+    const target = item || selectedItem;
+    if (!target) return;
+    setCartItems((prev) => {
+      const current = prev[target.id]?.count || 0;
+      if (current <= 1) {
+        // count 0 pe remove karo
+        const next = { ...prev };
+        delete next[target.id];
+        return next;
+      }
+      return {
         ...prev,
-        [selectedItem.id]: (prev[selectedItem.id] || 0) - 1,
-      }));
-    }
+        [target.id]: { item: target, count: current - 1 },
+      };
+    });
+  };
+
+  const handleRemove = (item) => {
+    setCartItems((prev) => {
+      const next = { ...prev };
+      delete next[item.id];
+      return next;
+    });
+  };
+
+  const handleDone = () => {
+    setDrawerOpen(false);
+  };
+
+  const handleCancel = () => {
+    setDrawerOpen(false);
   };
 
   // Filter + Search logic
@@ -56,7 +88,7 @@ const CreamyRangePopsicles = () => {
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesFilter =
-      filter === "all" || subject.label.toLowerCase() === filter;
+      filter === "all" || subject.title.toLowerCase() === filter.toLowerCase();
     return matchesSearch && matchesFilter;
   });
 
@@ -71,7 +103,7 @@ const CreamyRangePopsicles = () => {
         setSearch={setSearch}
         filter={filter}
         setFilter={setFilter}
-        subjects={creamyRangeData} // ✅ passing data to dropdown
+        subjects={creamyRangeData}
       />
 
       {/* Subjects Grid */}
@@ -95,9 +127,16 @@ const CreamyRangePopsicles = () => {
             <div
               key={index}
               onClick={() => handleCardClick(subject)}
-              className="group bg-card text-card-foreground border border-border rounded-md flex flex-col transition-all duration-300 overflow-hidden cursor-pointer"
+              className={`
+                group bg-card text-card-foreground border rounded-md flex flex-col
+                transition-all duration-300 overflow-hidden cursor-pointer
+                ${cartItems[subject.id]?.count > 0
+                  ? "border-primary ring-1 ring-primary"
+                  : "border-border"
+                }
+              `}
             >
-              <div className="h-48 w-full overflow-hidden flex-shrink-0">
+              <div className="h-48 w-full overflow-hidden flex-shrink-0 relative">
                 <img
                   src={subject.img}
                   alt={subject.title}
@@ -107,6 +146,12 @@ const CreamyRangePopsicles = () => {
                     e.currentTarget.src = "/fallback-image.png";
                   }}
                 />
+                {/* Cart badge */}
+                {cartItems[subject.id]?.count > 0 && (
+                  <span className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center shadow">
+                    {cartItems[subject.id].count}
+                  </span>
+                )}
               </div>
               <div className="p-3">
                 <Button className="w-full inline-flex items-center justify-center gap-1 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md transition">
@@ -134,9 +179,12 @@ const CreamyRangePopsicles = () => {
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         item={selectedItem}
-        count={selectedItem ? (clickCounts[selectedItem.id] || 0) : 0}
+        cartItems={cartItems}
         onIncrement={handleIncrement}
         onDecrement={handleDecrement}
+        onRemove={handleRemove}
+        onDone={handleDone}
+        onCancel={handleCancel}
       />
     </div>
   );
