@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
   useParams,
+  Navigate,
 } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import NotFound from "@/components/subject/not-found";
@@ -15,7 +16,20 @@ import ChapterAssessment from "@/components/subject/test-subject-assessment";
 const AuthLayout = lazy(() => import("@/layouts/auth-layout.jsx"));
 const DashboardLayout = lazy(() => import("@/layouts/dashboard-layout.jsx"));
 const LoginPage = lazy(() => import("@/Auth-layout/layout.jsx"));
-const Subject = lazy(() => import("@/student-layout/subject.jsx"));
+const CreamyRangePopsicles = lazy(() => import("@/student-layout/creamy-range-popsicles.jsx"));
+const IcyRangePopsicles = lazy(() => import("@/student-layout/icy-range-popsicles.jsx"));
+const CakePopsicles = lazy(() => import("@/student-layout/cake-popsicles.jsx"));
+const GreekYogurtPopsicles = lazy(() => import("@/student-layout/greek-yogurt-popsicles.jsx"));
+const FruityBlitzPopsicles = lazy(() => import("@/student-layout/fruity-blitz-popsicles.jsx"));
+const SugarFreePopsicles = lazy(() => import("@/student-layout/sugar-free-popsicles.jsx"));
+const ProbioticsPopsicles = lazy(() => import("@/student-layout/probiotics-popsicles.jsx"));
+const CupForOne = lazy(() => import("@/student-layout/cup-for-one.jsx"));
+const Tubs = lazy(() => import("@/student-layout/tubs.jsx"));
+const Jars = lazy(() => import("@/student-layout/jars.jsx"));
+const Sandwich = lazy(() => import("@/student-layout/sandwich.jsx"));
+const IceCreamCakes = lazy(() => import("@/student-layout/ice-cream-cakes.jsx"));
+const Boxes = lazy(() => import("@/student-layout/boxes.jsx"));
+const DealsForAll = lazy(() => import("@/student-layout/deals-for-all.jsx"));
 const Assessment = lazy(() =>
   import("@/student-layout/create-subjects-mcqs.jsx")
 );
@@ -49,9 +63,74 @@ const titlesConfig = [
     description: "Verify your identity using OTP.",
   },
   {
-    path: "/subjects",
-    title: "Subjects",
-    description: "Browse all available subjects.",
+    path: "/creamy-range-popsicles",
+    title: "Creamy Range Popsicles",
+    description: "Browse all Creamy Range Popsicles.",
+  },
+  {
+    path: "/icy-range-popsicles",
+    title: "Icy Range Popsicles",
+    description: "Browse all Icy Range Popsicles.",
+  },
+  {
+    path: "/cake-popsicles",
+    title: "Cake Popsicles",
+    description: "Browse all Cake Popsicles.",
+  },
+  {
+    path: "/greek-yogurt-popsicles",
+    title: "Greek Yogurt Popsicles",
+    description: "Browse all Greek Yogurt Popsicles.",
+  },
+  {
+    path: "/fruity-blitz-popsicles",
+    title: "Fruity Blitz Popsicles",
+    description: "Browse all Fruity Blitz Popsicles.",
+  },
+  {
+    path: "/sugar-free-popsicles",
+    title: "Sugar Free Popsicles",
+    description: "Browse all Sugar Free Popsicles.",
+  },
+  {
+    path: "/probiotics-popsicles",
+    title: "Probiotics Popsicles",
+    description: "Browse all Probiotics Popsicles.",
+  },
+  {
+    path: "/cup-for-one",
+    title: "Cup For One",
+    description: "Browse all Cups For One.",
+  },
+  {
+    path: "/tubs",
+    title: "Tubs",
+    description: "Browse all Tubs.",
+  },
+  {
+    path: "/jars",
+    title: "Jars",
+    description: "Browse all Jars.",
+  },
+  {
+    path: "/sandwich",
+    title: "Sandwich",
+    description: "Browse all Sandwich ice creams.",
+  },
+  {
+    path: "/ice-cream-cakes",
+    title: "Ice Cream Cakes",
+    description: "Browse all Ice Cream Cakes.",
+  },
+  {
+    path: "/boxes",
+    title: "Boxes",
+    description: "Browse all Boxes.",
+  },
+  {
+    path: "/deals-for-all",
+    title: "Deals For All",
+    description: "Browse all Deals For All.",
   },
   {
     path: "/assessment-page",
@@ -180,9 +259,117 @@ function AppRoutes({ loadingBarRef }) {
           />
           <Route
             path="/subjects"
+            element={<Navigate to="/creamy-range-popsicles" replace />}
+          />
+          <Route
+            path="/creamy-range-popsicles"
             element={
               <DashboardLayout>
-                <Subject />
+                <CreamyRangePopsicles />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/icy-range-popsicles"
+            element={
+              <DashboardLayout>
+                <IcyRangePopsicles />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/cake-popsicles"
+            element={
+              <DashboardLayout>
+                <CakePopsicles />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/greek-yogurt-popsicles"
+            element={
+              <DashboardLayout>
+                <GreekYogurtPopsicles />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/fruity-blitz-popsicles"
+            element={
+              <DashboardLayout>
+                <FruityBlitzPopsicles />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/sugar-free-popsicles"
+            element={
+              <DashboardLayout>
+                <SugarFreePopsicles />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/probiotics-popsicles"
+            element={
+              <DashboardLayout>
+                <ProbioticsPopsicles />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/cup-for-one"
+            element={
+              <DashboardLayout>
+                <CupForOne />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/tubs"
+            element={
+              <DashboardLayout>
+                <Tubs />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/jars"
+            element={
+              <DashboardLayout>
+                <Jars />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/sandwich"
+            element={
+              <DashboardLayout>
+                <Sandwich />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/ice-cream-cakes"
+            element={
+              <DashboardLayout>
+                <IceCreamCakes />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/boxes"
+            element={
+              <DashboardLayout>
+                <Boxes />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/deals-for-all"
+            element={
+              <DashboardLayout>
+                <DealsForAll />
               </DashboardLayout>
             }
           />

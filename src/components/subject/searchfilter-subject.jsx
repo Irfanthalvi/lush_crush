@@ -61,13 +61,13 @@ const SearchFilterSubject = ({
             <SelectItem value="all" className="cursor-pointer">
               All Subjects
             </SelectItem>
-            {subjects.map((sub) => (
+            {Array.from(new Set(subjects.map((sub) => sub.label))).map((label) => (
               <SelectItem
-                key={sub.id}
-                value={sub.label.toLowerCase()}
+                key={label}
+                value={label.toLowerCase()}
                 className="cursor-pointer"
               >
-                {sub.label}
+                {label}
               </SelectItem>
             ))}
           </SelectContent>

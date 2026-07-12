@@ -42,7 +42,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
       {/* Links */}
       <nav className="flex-1 px-1 py-4 space-y-2 overflow-y-auto">
         <NavLink
-          to="/subjects"
+          to="/creamy-range-popsicles"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -57,7 +57,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
         </NavLink>
 
         <NavLink
-          to="/create-assessment"
+          to="/icy-range-popsicles"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -71,7 +71,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Icy-Range-Popsicles</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/cake-popsicles"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -85,7 +85,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Cake-Popsicles</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/greek-yogurt-popsicles"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -99,7 +99,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Greek-Yogurt-Popsicles</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/fruity-blitz-popsicles"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -113,7 +113,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Fruity-Blitz-Popsicles</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/sugar-free-popsicles"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -127,7 +127,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Sugar-Free-Popsicles</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/probiotics-popsicles"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -141,7 +141,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Probiotics-Popsicles</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/cup-for-one"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -155,7 +155,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Cup-For-One</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/tubs"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -169,7 +169,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Tubs</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/jars"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -183,7 +183,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Jars</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/sandwich"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -197,7 +197,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Sandwich</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/ice-cream-cakes"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -211,7 +211,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Ice-Cream-Cakes</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/boxes"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
@@ -225,7 +225,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
           {isSidebarOpen && <span className="truncate">Boxes</span>}
         </NavLink>
         <NavLink
-          to="/create-assessment"
+          to="/deals-for-all"
           onClick={closeSidebar}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden

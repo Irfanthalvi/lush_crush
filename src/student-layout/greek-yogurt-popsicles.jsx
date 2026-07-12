@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { subjectsData } from "@/components/subject/subject-data";
+import { greekYogurtData } from "@/components/subject/greek-yogurt-data";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchFilterSubject from "@/components/subject/searchfilter-subject";
 
-const Subject = () => {
+const GreekYogurtPopsicles = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(8);
@@ -21,7 +21,7 @@ const Subject = () => {
   const handleLoadMore = () => setVisibleCount((prev) => prev + 8);
 
   // Filter + Search logic
-  const filteredSubjects = subjectsData.filter((subject) => {
+  const filteredSubjects = greekYogurtData.filter((subject) => {
     const matchesSearch = subject.title
       .toLowerCase()
       .includes(search.toLowerCase());
@@ -41,7 +41,7 @@ const Subject = () => {
         setSearch={setSearch}
         filter={filter}
         setFilter={setFilter}
-        subjects={subjectsData} // ✅ passing data to dropdown
+        subjects={greekYogurtData} // ✅ passing data to dropdown
       />
 
       {/* Subjects Grid */}
@@ -102,4 +102,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default GreekYogurtPopsicles;

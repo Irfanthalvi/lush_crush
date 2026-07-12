@@ -7,7 +7,37 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { subjectsData } from "@/components/subject/subject-data";
+import { creamyRangeData } from "@/components/subject/creamy-range-data";
+import { icyRangeData } from "@/components/subject/icy-range-data";
+import { cakePopsiclesData } from "@/components/subject/cake-popsicles-data";
+import { greekYogurtData } from "@/components/subject/greek-yogurt-data";
+import { fruityBlitzData } from "@/components/subject/fruity-blitz-data";
+import { sugarFreeData } from "@/components/subject/sugar-free-data";
+import { probioticsData } from "@/components/subject/probiotics-data";
+import { cupForOneData } from "@/components/subject/cup-for-one-data";
+import { tubsData } from "@/components/subject/tubs-data";
+import { jarsData } from "@/components/subject/jars-data";
+import { sandwichData } from "@/components/subject/sandwich-data";
+import { iceCreamCakesData } from "@/components/subject/ice-cream-cakes-data";
+import { boxesData } from "@/components/subject/boxes-data";
+import { dealsForAllData } from "@/components/subject/deals-for-all-data";
+
+const subjectsData = [
+  ...creamyRangeData,
+  ...icyRangeData,
+  ...cakePopsiclesData,
+  ...greekYogurtData,
+  ...fruityBlitzData,
+  ...sugarFreeData,
+  ...probioticsData,
+  ...cupForOneData,
+  ...tubsData,
+  ...jarsData,
+  ...sandwichData,
+  ...iceCreamCakesData,
+  ...boxesData,
+  ...dealsForAllData,
+];
 
 export default function Breadcrumbs() {
   const location = useLocation();
@@ -16,7 +46,7 @@ export default function Breadcrumbs() {
 
   useEffect(() => {
     if (id) {
-      const matched = subjectsData.find((s) => s.slug === `/chapter/${id}`);
+      const matched = subjectsData.find((s) => s.id === `/chapter/${id}`);
       setChapterTitle(matched?.title || `Chapter: ${id}`);
     }
   }, [id]);

@@ -1,4 +1,4 @@
-export const subjectsData = [
+export const creamyRangeData = [
   {
     id: "/chapter/english",
     label: "English",
