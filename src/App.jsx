@@ -9,8 +9,6 @@ import {
 } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import NotFound from "@/components/subject/not-found";
-import AssessmentPage from "@/components/create-subject-mcqs/assessment-page";
-import ChapterAssessment from "@/components/subject/test-subject-assessment";
 
 // Lazy loaded components
 const AuthLayout = lazy(() => import("@/layouts/auth-layout.jsx"));
@@ -30,10 +28,6 @@ const Sandwich = lazy(() => import("@/student-layout/sandwich.jsx"));
 const IceCreamCakes = lazy(() => import("@/student-layout/ice-cream-cakes.jsx"));
 const Boxes = lazy(() => import("@/student-layout/boxes.jsx"));
 const DealsForAll = lazy(() => import("@/student-layout/deals-for-all.jsx"));
-const Assessment = lazy(() =>
-  import("@/student-layout/create-subjects-mcqs.jsx")
-);
-const SubjectChapters = lazy(() => import("@/components/subject/chapter.jsx"));
 
 // 📌 Centralized Titles + Descriptions
 const titlesConfig = [
@@ -132,16 +126,6 @@ const titlesConfig = [
     title: "Deals For All",
     description: "Browse all Deals For All.",
   },
-  {
-    path: "/assessment-page",
-    title: "Assessment Page",
-    description: "Manage and create assessment page.",
-  },
-  {
-    path: "/create-assessment",
-    title: "Create-Assessment",
-    description: "Manage and create assessments.",
-  },
 ];
 
 // 📌 Title Manager Component
@@ -161,14 +145,7 @@ function TitleManager() {
       description = found.description;
     }
 
-    // Dynamic routes
-    else if (path.startsWith("/chapter/")) {
-      title = `Chapter ${params.id || ""}`;
-      description = `Study materials for chapter ${params.id || ""}.`;
-    } else if (path.startsWith("/assessment/")) {
-      title = "Assessment";
-      description = "Take assessments to test your knowledge.";
-    }
+
 
     // ✅ Set document.title
     document.title = title;
@@ -373,38 +350,7 @@ function AppRoutes({ loadingBarRef }) {
               </DashboardLayout>
             }
           />
-          <Route
-            path="/chapter/:id"
-            element={
-              <DashboardLayout>
-                <SubjectChapters />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/assessment/:subject/:chapterId"
-            element={
-              <DashboardLayout>
-                <ChapterAssessment />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/create-assessment"
-            element={
-              <DashboardLayout>
-                <Assessment />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/assessment-page"
-            element={
-              <DashboardLayout>
-                <AssessmentPage />
-              </DashboardLayout>
-            }
-          />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

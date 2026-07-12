@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useLocation, useParams, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,90 +6,32 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { creamyRangeData } from "@/components/subject/creamy-range-data";
-import { icyRangeData } from "@/components/subject/icy-range-data";
-import { cakePopsiclesData } from "@/components/subject/cake-popsicles-data";
-import { greekYogurtData } from "@/components/subject/greek-yogurt-data";
-import { fruityBlitzData } from "@/components/subject/fruity-blitz-data";
-import { sugarFreeData } from "@/components/subject/sugar-free-data";
-import { probioticsData } from "@/components/subject/probiotics-data";
-import { cupForOneData } from "@/components/subject/cup-for-one-data";
-import { tubsData } from "@/components/subject/tubs-data";
-import { jarsData } from "@/components/subject/jars-data";
-import { sandwichData } from "@/components/subject/sandwich-data";
-import { iceCreamCakesData } from "@/components/subject/ice-cream-cakes-data";
-import { boxesData } from "@/components/subject/boxes-data";
-import { dealsForAllData } from "@/components/subject/deals-for-all-data";
 
-const subjectsData = [
-  ...creamyRangeData,
-  ...icyRangeData,
-  ...cakePopsiclesData,
-  ...greekYogurtData,
-  ...fruityBlitzData,
-  ...sugarFreeData,
-  ...probioticsData,
-  ...cupForOneData,
-  ...tubsData,
-  ...jarsData,
-  ...sandwichData,
-  ...iceCreamCakesData,
-  ...boxesData,
-  ...dealsForAllData,
-];
+const routeLabels = {
+  "/creamy-range-popsicles": "Creamy Range Popsicles",
+  "/icy-range-popsicles": "Icy Range Popsicles",
+  "/cake-popsicles": "Cake Popsicles",
+  "/greek-yogurt-popsicles": "Greek Yogurt Popsicles",
+  "/fruity-blitz-popsicles": "Fruity Blitz Popsicles",
+  "/sugar-free-popsicles": "Sugar Free Popsicles",
+  "/probiotics-popsicles": "Probiotics Popsicles",
+  "/cup-for-one": "Cup For One",
+  "/tubs": "Tubs",
+  "/jars": "Jars",
+  "/sandwich": "Sandwich",
+  "/ice-cream-cakes": "Ice Cream Cakes",
+  "/boxes": "Boxes",
+  "/deals-for-all": "Deals For All",
+};
 
 export default function Breadcrumbs() {
   const location = useLocation();
-  const { id, subject, chapterId } = useParams();
-  const [chapterTitle, setChapterTitle] = useState("");
+  const pathname = location.pathname;
 
-  useEffect(() => {
-    if (id) {
-      const matched = subjectsData.find((s) => s.id === `/chapter/${id}`);
-      setChapterTitle(matched?.title || `Chapter: ${id}`);
-    }
-  }, [id]);
-
-  // Generate breadcrumb items
   const items = [];
-
-  if (location.pathname.includes("/assessment/") && subject) {
+  if (routeLabels[pathname]) {
     items.push({
-      label: subject.charAt(0).toUpperCase() + subject.slice(1),
-      link: `/chapter/${subject}`,
-    });
-  }
-
-  if (location.pathname.includes("/assessment/") && chapterId) {
-    items.push({
-      label: chapterId.replace("chapter", "Chapter "),
-      link: null,
-    });
-  }
-
-  if (location.pathname.includes("/assessment/")) {
-    items.push({
-      label: "Assessment",
-      link: null,
-    });
-  }
-
-  if (location.pathname.startsWith("/chapter/") && id && chapterTitle) {
-    items.push({
-      label: chapterTitle,
-      link: null,
-    });
-  }
-  if (location.pathname === "/create-assessment") {
-    items.push({
-      label: "Create Assessment",
-      link: null,
-    });
-  }
-
-  if (location.pathname === "/assessment-page") {
-    items.push({
-      label: "Assessment Page",
+      label: routeLabels[pathname],
       link: null,
     });
   }
@@ -102,7 +43,7 @@ export default function Breadcrumbs() {
         <div className="hidden sm:flex items-center gap-1">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link className="text-muted-foreground">Subjects</Link>
+              <Link to="/creamy-range-popsicles" className="text-muted-foreground">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
 

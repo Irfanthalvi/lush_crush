@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { icyRangeData } from "@/components/subject/icy-range-data";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchFilterSubject from "@/components/subject/searchfilter-subject";
+import ItemDrawer from "@/components/subject/item-drawer";
 
 const IcyRangePopsicles = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(8);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [clickCounts, setClickCounts] = useState({});
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -19,6 +22,33 @@ const IcyRangePopsicles = () => {
   }, []);
 
   const handleLoadMore = () => setVisibleCount((prev) => prev + 8);
+
+  const handleCardClick = (item) => {
+    setSelectedItem(item);
+    setClickCounts((prev) => ({
+      ...prev,
+      [item.id]: (prev[item.id] || 0) + 1,
+    }));
+    setDrawerOpen(true);
+  };
+
+  const handleIncrement = () => {
+    if (selectedItem) {
+      setClickCounts((prev) => ({
+        ...prev,
+        [selectedItem.id]: (prev[selectedItem.id] || 0) + 1,
+      }));
+    }
+  };
+
+  const handleDecrement = () => {
+    if (selectedItem && (clickCounts[selectedItem.id] || 0) > 0) {
+      setClickCounts((prev) => ({
+        ...prev,
+        [selectedItem.id]: (prev[selectedItem.id] || 0) - 1,
+      }));
+    }
+  };
 
   // Filter + Search logic
   const filteredSubjects = icyRangeData.filter((subject) => {
@@ -64,7 +94,7 @@ const IcyRangePopsicles = () => {
           : visibleSubjects.map((subject, index) => (
             <div
               key={index}
-              onClick={() => navigate(subject.id)}
+              onClick={() => handleCardClick(subject)}
               className="group bg-card text-card-foreground border border-border rounded-md flex flex-col transition-all duration-300 overflow-hidden cursor-pointer"
             >
               <div className="h-48 w-full overflow-hidden flex-shrink-0">
@@ -98,6 +128,16 @@ const IcyRangePopsicles = () => {
           </Button>
         </div>
       )}
+
+      {/* Item Details Drawer */}
+      <ItemDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        item={selectedItem}
+        count={selectedItem ? (clickCounts[selectedItem.id] || 0) : 0}
+        onIncrement={handleIncrement}
+        onDecrement={handleDecrement}
+      />
     </div>
   );
 };
