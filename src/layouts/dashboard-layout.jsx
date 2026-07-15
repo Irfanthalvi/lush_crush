@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Loader } from "lucide-react";
-import { closeDrawer } from "@/lib/drawerSlice";
+import { Loader, ShoppingCart } from "lucide-react";
+import { closeDrawer, openDrawer } from "@/lib/drawerSlice";
 import { increment, decrement, removeItem } from "@/lib/cartSlice";
 import ItemDrawer from "@/components/subject/item-drawer";
 import ProfileModal from "@/components/subject/profile-model";
@@ -23,12 +23,10 @@ const DashboardLayout = ({ children }) => {
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-
       if (w < 768) setScreen("mobile");
       else if (w < 1024) setScreen("tablet");
       else setScreen("desktop");
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -61,10 +59,15 @@ const DashboardLayout = ({ children }) => {
   const closeSidebar = () =>
     (screen === "mobile" || screen === "tablet") && setIsSidebarOpen(false);
 
-  // ----- choose margin for main content -----
+  const isMobile = screen === "mobile";
+
+  // ----- Redux state -----
   const drawerOpen = useSelector((state) => state.drawer.open);
   const selectedItem = useSelector((state) => state.drawer.selectedItem);
   const cartItems = useSelector((state) => state.cart.items);
+
+  // Total cart count for FAB badge
+  const totalCartCount = Object.values(cartItems).reduce((sum, c) => sum + c.count, 0);
 
   const mainMargin = (() => {
     if (screen === "desktop") return isSidebarOpen ? "ml-[260px]" : "ml-[70px]";
@@ -88,6 +91,12 @@ const DashboardLayout = ({ children }) => {
     dispatch(removeItem({ id: item.id }));
   };
 
+  // Mobile FAB click: open drawer with currently selected item (or first cart item)
+  const handleFabClick = () => {
+    const target = selectedItem || Object.values(cartItems)[0]?.item || null;
+    dispatch(openDrawer(target));
+  };
+
   return (
     <div className="flex min-h-screen bg-background text-foreground relative">
       {/* Sidebar */}
@@ -109,7 +118,7 @@ const DashboardLayout = ({ children }) => {
 
       {/* Main content */}
       <main
-        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ${mainMargin} ${drawerOpen ? 'mr-[420px]' : ''}`}
+        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ${mainMargin} ${!isMobile && drawerOpen ? 'mr-[420px]' : ''}`}
       >
         {/* Topbar */}
         <div className="sticky top-0 z-30 bg-background border-b">
@@ -120,7 +129,7 @@ const DashboardLayout = ({ children }) => {
             setIsDropdownOpen={setIsDropdownOpen}
             setIsModalOpen={setIsModalOpen}
             profile={profile}
-            isMobile={screen === "mobile"}
+            isMobile={isMobile}
           />
         </div>
 
@@ -137,6 +146,38 @@ const DashboardLayout = ({ children }) => {
         </div>
       </main>
 
+      {/* ── Mobile FAB: Floating "Done" button ──────────────────────────────── */}
+      {isMobile && totalCartCount > 0 && !drawerOpen && (
+        <button
+          onClick={handleFabClick}
+          className="
+            fixed bottom-6 right-5 z-50
+            flex items-center gap-2
+            bg-primary text-primary-foreground
+            px-5 py-3 rounded-full
+            shadow-lg shadow-primary/40
+            font-monstrat-hadding font-semibold text-sm
+            active:scale-95 transition-transform duration-150
+            animate-bounce-once
+          "
+          style={{
+            boxShadow: "0 4px 24px 0 rgba(0,0,0,0.25)",
+          }}
+        >
+          <ShoppingCart size={18} />
+          Done
+          {/* Badge */}
+          <span className="
+            inline-flex items-center justify-center
+            h-5 w-5 rounded-full
+            bg-primary-foreground text-primary
+            text-xs font-bold ml-0.5
+          ">
+            {totalCartCount}
+          </span>
+        </button>
+      )}
+
       {/* Global Item Details Drawer */}
       <ItemDrawer
         open={drawerOpen}
@@ -148,6 +189,7 @@ const DashboardLayout = ({ children }) => {
         onRemove={handleRemove}
         onDone={() => dispatch(closeDrawer())}
         onCancel={() => dispatch(closeDrawer())}
+        isMobile={isMobile}
       />
 
       {/* Profile modal */}

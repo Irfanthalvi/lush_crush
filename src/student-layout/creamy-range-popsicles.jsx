@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import SearchFilterSubject from "@/components/subject/searchfilter-subject";
 import { useDispatch, useSelector } from "react-redux";
-import { openDrawer } from "@/lib/drawerSlice";
+import { openDrawer, setSelectedItem } from "@/lib/drawerSlice";
 import { addItem } from "@/lib/cartSlice";
+import { useIsMobile } from "@/lib/useIsMobile";
 
 const CreamyRangePopsicles = () => {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,7 @@ const CreamyRangePopsicles = () => {
 
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -25,9 +27,14 @@ const CreamyRangePopsicles = () => {
   const handleLoadMore = () => setVisibleCount((prev) => prev + 8);
 
   const handleCardClick = (item) => {
-    dispatch(openDrawer(item));
     if (!cartItems[item.id]) {
       dispatch(addItem({ item }));
+    }
+    if (isMobile) {
+      // Mobile: sirf item select karo, drawer FAB se khulay ga
+      dispatch(setSelectedItem(item));
+    } else {
+      dispatch(openDrawer(item));
     }
   };
 

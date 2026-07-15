@@ -158,3 +158,15 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #ffffff !important;
 }
 
+/* Mobile FAB - pop-in animation */
+@keyframes fab-pop {
+  0% { transform: scale(0.5) translateY(20px); opacity: 0; }
+  70% { transform: scale(1.08) translateY(-2px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.animate-bounce-once {
+  animation: fab-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+
