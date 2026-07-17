@@ -34,7 +34,7 @@ const Register = ({ setActive }) => {
       <img
         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg"
         alt="Logo"
-        className="h-12 mb-8 text-primary"
+        className="h-12 mb-8 invert"
       />
 
       <h2 className="text-4xl font-bold mb-10 text-center">Create your account</h2>

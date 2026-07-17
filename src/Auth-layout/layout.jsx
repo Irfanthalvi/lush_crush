@@ -19,10 +19,20 @@ const LoginPage = ({ activeForm = "login" }) => {
       {/* Left Side: Image with same shade as right */}
       <div className="hidden md:block w-1/2 h-full relative">
         <img
-          src="/images/left-image.jpg"
+          src="/images/right-image.jpg"
           alt="Visual"
           className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-1">
+          <img
+            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg"
+            alt="Logo"
+            className="h-12 mb-2 invert"
+          />
+          <p className="text-6xl font-bold text-white mb-4">Lush Crush</p>
+          <p className="text-4xl font-bold text-white">ice-pop</p>
+        </div>
+
         <div className="absolute inset-0 bg-black/20" />
       </div>
 

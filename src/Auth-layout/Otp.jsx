@@ -55,9 +55,9 @@ const Otp = ({ email }) => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center bg-transparent text-white px-4 py-10">
       <img
-        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?"
+        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg"
         alt="Logo"
-        className="h-12 mb-8"
+        className="h-12 mb-8 invert"
       />
       <h2 className="text-4xl font-bold mb-10 text-center">Verify your account</h2>
 

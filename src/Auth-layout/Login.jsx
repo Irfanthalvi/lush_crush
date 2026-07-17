@@ -30,9 +30,9 @@ const LoginForm = ({ setActive }) => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center px-4 py-10 bg-transparent text-white">
       <img
-        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?"
+        src="https://tailwindcss.com/plus-assets/img/logos/mark.svg"
         alt="Logo"
-        className="h-12 mb-8"
+        className="h-12 mb-8 invert"
       />
       <h2 className="text-4xl font-bold mb-10 text-center">Sign in to your account</h2>
 
