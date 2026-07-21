@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Loader, ShoppingCart } from "lucide-react";
@@ -63,6 +63,7 @@ const DashboardLayout = ({ children }) => {
     (screen === "mobile" || screen === "tablet") && setIsSidebarOpen(false);
 
   const isMobile = screen === "mobile";
+  const isTablet = screen === "tablet";
 
   // ----- Redux state -----
   const drawerOpen = useSelector((state) => state.drawer.open);
@@ -120,6 +121,25 @@ const DashboardLayout = ({ children }) => {
     toast("Order cancelled & items refreshed", { icon: "ℹ️" });
   };
 
+  // Bill Modal Complete Without Print: order done, no print
+  const handleCompleteOrder = () => {
+    setIsBillModalOpen(false);
+    dispatch(clearCart());
+    dispatch(closeDrawer());
+    toast.success("Order completed successfully.");
+  };
+
+  // Auto-open drawer on mobile when first item is added to cart
+  const prevCartCountRef = React.useRef(0);
+  useEffect(() => {
+    const prev = prevCartCountRef.current;
+    prevCartCountRef.current = totalCartCount;
+    if (isMobile && prev === 0 && totalCartCount === 1 && !drawerOpen) {
+      const firstItem = Object.values(cartItems)[0]?.item || null;
+      dispatch(openDrawer(firstItem));
+    }
+  }, [totalCartCount, isMobile, drawerOpen]);
+
   // Mobile FAB click: open drawer with currently selected item (or first cart item)
   const handleFabClick = () => {
     const target = selectedItem || Object.values(cartItems)[0]?.item || null;
@@ -162,9 +182,13 @@ const DashboardLayout = ({ children }) => {
           />
         </div>
 
-        {/* Content area: Resizes when drawer opens */}
+        {/* Content area: Resizes when drawer opens (tablet=300px, desktop=420px) */}
         <div
-          className={`flex-1 transition-all duration-300 ${!isMobile && drawerOpen ? 'mr-[420px]' : ''}`}
+          className={`flex-1 transition-all duration-300 ${
+            !isMobile && drawerOpen
+              ? isTablet ? 'mr-[300px]' : 'mr-[420px]'
+              : ''
+          }`}
         >
           {loading ? (
             <div className="h-full flex items-center justify-center text-muted-foreground py-20">
@@ -222,6 +246,7 @@ const DashboardLayout = ({ children }) => {
         onDone={handleDrawerDone}
         onCancel={handleDrawerCancel}
         isMobile={isMobile}
+        isTablet={isTablet}
       />
 
       {/* Official Printable Bill Modal */}
@@ -230,6 +255,7 @@ const DashboardLayout = ({ children }) => {
         onClose={() => setIsBillModalOpen(false)}
         cartItems={cartItems}
         onCancelOrder={handleBillCancel}
+        onCompleteOrder={handleCompleteOrder}
       />
 
       {/* Profile modal */}

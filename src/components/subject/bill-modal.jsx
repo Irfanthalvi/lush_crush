@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Printer, X, ShoppingBag, CreditCard, Banknote, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const BillModal = ({ open, onClose, cartItems, onCancelOrder }) => {
+const BillModal = ({ open, onClose, cartItems, onCancelOrder, onCompleteOrder }) => {
   const [paymentMode, setPaymentMode] = useState("cash"); // "cash" (15% tax) | "card" (8% tax)
 
   if (!open) return null;
@@ -165,19 +165,32 @@ const BillModal = ({ open, onClose, cartItems, onCancelOrder }) => {
         </div>
 
         {/* Modal Bottom Buttons (Hidden when Printing) */}
-        <div className="p-4 border-t border-border bg-background flex gap-3 print:hidden">
-          <Button
-            variant="outline"
-            onClick={onCancelOrder}
-            className="flex-1 font-monstrat-hadding border-destructive/40 text-destructive hover:bg-destructive/10"
-          >
-            <X size={16} className="mr-1.5" />
-            Cancel Order
-          </Button>
+        <div className="p-4 border-t border-border bg-background print:hidden">
+          {/* Row 1: Cancel + Complete */}
+          <div className="flex gap-3 mb-2">
+            <Button
+              variant="outline"
+              onClick={onCancelOrder}
+              className="flex-1 font-monstrat-hadding border-destructive/40 text-destructive hover:bg-destructive/10"
+            >
+              <X size={16} className="mr-1.5" />
+              Cancel Order
+            </Button>
 
+            <Button
+              variant="outline"
+              onClick={onCompleteOrder}
+              className="flex-1 font-monstrat-hadding border-green-500/40 text-green-600 hover:bg-green-500/10"
+            >
+              <CheckCircle2 size={16} className="mr-1.5" />
+              Complete Order
+            </Button>
+          </div>
+
+          {/* Row 2: Print (full width) */}
           <Button
             onClick={handlePrint}
-            className="flex-1 font-monstrat-hadding bg-primary text-primary-foreground hover:bg-primary/90"
+            className="w-full font-monstrat-hadding bg-primary text-primary-foreground hover:bg-primary/90"
           >
             <Printer size={16} className="mr-1.5" />
             Print Receipt

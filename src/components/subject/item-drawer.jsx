@@ -3,8 +3,7 @@ import { X, Plus, Minus, Trash2, ShoppingCart, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button";
 
 /**
- * ItemDrawer - Desktop: right-side panel | Mobile: bottom sheet
- * Mobile pe FAB se khulay ga
+ * ItemDrawer - Desktop: right-side panel | Tablet: narrower panel | Mobile: full-screen sheet
  */
 const ItemDrawer = ({
   open,
@@ -17,6 +16,7 @@ const ItemDrawer = ({
   onDone,
   onCancel,
   isMobile,
+  isTablet,
 }) => {
   const ITEM_BASE_PRICE = 390;
   const cartList = Object.values(cartItems || {}).filter((c) => c.count > 0);
@@ -29,7 +29,8 @@ const ItemDrawer = ({
 
   if (!open) return null;
 
-  // ─── MOBILE: Bottom Sheet ──────────────────────────────────────────────────
+
+  // ─── MOBILE: Full-Screen Sheet ─────────────────────────────────────────────
   if (isMobile) {
     return (
       <>
@@ -39,14 +40,12 @@ const ItemDrawer = ({
           onClick={onClose}
         />
 
-        {/* Bottom Sheet */}
+        {/* Full-Screen Sheet */}
         <div
           className={`
-            fixed bottom-0 left-0 right-0 z-50
+            fixed inset-0 z-50
             bg-background border-t border-border
-            rounded-t-2xl shadow-2xl
             flex flex-col
-            max-h-[85vh]
             transition-transform duration-300 ease-out
             ${open ? "translate-y-0" : "translate-y-full"}
           `}
@@ -229,7 +228,10 @@ const ItemDrawer = ({
     );
   }
 
-  // ─── DESKTOP: Right-side Inline Panel ────────────────────────────────────
+  // ─── DESKTOP / TABLET: Right-side Inline Panel ──────────────────────────
+  // Tablet: 300px wide | Desktop: 420px wide
+  const panelWidth = isTablet ? "w-[300px]" : "w-[420px]";
+
   return (
     <>
       {/* Backdrop - only on small screens */}
@@ -242,7 +244,7 @@ const ItemDrawer = ({
       <div
         className={`
           fixed top-[75px] right-0 bottom-0 z-20
-          w-full sm:w-[420px]
+          ${panelWidth}
           bg-background border-l border-border
           flex flex-col
           shadow-2xl

@@ -168,5 +168,26 @@ input:-webkit-autofill:active {
 .animate-bounce-once {
   animation: fab-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
+/* ── Theme Transition ───────────────────────────────────────────────────────
+   Smooth color transitions when toggling light ↔ dark.
+   Excludes elements where instant change is critical (e.g. SVG animations).
+──────────────────────────────────────────────────────────────────────────── */
+*:not(svg):not(svg *) {
+  transition:
+    background-color 0.25s ease,
+    color            0.15s ease,
+    border-color     0.15s ease,
+    box-shadow       0.15s ease,
+    fill             0.15s ease;
+}
 
-
+/* Re-allow instant transitions for interactive elements so clicks feel snappy */
+button, a, input, select, textarea {
+  transition:
+    background-color 0.15s ease,
+    color            0.10s ease,
+    border-color     0.10s ease,
+    box-shadow       0.10s ease,
+    transform        0.10s ease,
+    opacity          0.10s ease;
+}
