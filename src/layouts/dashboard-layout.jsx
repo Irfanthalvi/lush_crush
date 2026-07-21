@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Loader, ShoppingCart } from "lucide-react";
+import toast from "react-hot-toast";
 import { closeDrawer, openDrawer } from "@/lib/drawerSlice";
-import { increment, decrement, removeItem } from "@/lib/cartSlice";
+import { increment, decrement, removeItem, clearCart } from "@/lib/cartSlice";
 import ItemDrawer from "@/components/subject/item-drawer";
+import BillModal from "@/components/subject/bill-modal";
 import ProfileModal from "@/components/subject/profile-model";
 import Topbar from "@/components/topbar";
 import Sidebar from "@/components/sidebar";
@@ -14,6 +16,7 @@ const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBillModalOpen, setIsBillModalOpen] = useState(false);
   const [profile, setProfile] = useState({ name: "IRFAN ALI", image: null });
   const [loading, setLoading] = useState(true);
   const dropdownRef = useRef(null);
@@ -89,6 +92,32 @@ const DashboardLayout = ({ children }) => {
 
   const handleRemove = (item) => {
     dispatch(removeItem({ id: item.id }));
+  };
+
+  // Drawer Cancel Action: clear cart & show toast
+  const handleDrawerCancel = () => {
+    dispatch(clearCart());
+    dispatch(closeDrawer());
+    toast.error("Order cancelled & cart cleared!", { icon: "❌" });
+  };
+
+  // Drawer Done Action: show toast & open bill modal
+  const handleDrawerDone = () => {
+    if (Object.keys(cartItems).length === 0) {
+      toast.error("Cart is empty! Select items first.");
+      return;
+    }
+    dispatch(closeDrawer());
+    setIsBillModalOpen(true);
+    toast.success("Bill generated successfully!");
+  };
+
+  // Bill Modal Cancel Action: close bill & reset cart
+  const handleBillCancel = () => {
+    setIsBillModalOpen(false);
+    dispatch(clearCart());
+    dispatch(closeDrawer());
+    toast("Order cancelled & items refreshed", { icon: "ℹ️" });
   };
 
   // Mobile FAB click: open drawer with currently selected item (or first cart item)
@@ -190,9 +219,17 @@ const DashboardLayout = ({ children }) => {
         onIncrement={handleIncrement}
         onDecrement={handleDecrement}
         onRemove={handleRemove}
-        onDone={() => dispatch(closeDrawer())}
-        onCancel={() => dispatch(closeDrawer())}
+        onDone={handleDrawerDone}
+        onCancel={handleDrawerCancel}
         isMobile={isMobile}
+      />
+
+      {/* Official Printable Bill Modal */}
+      <BillModal
+        open={isBillModalOpen}
+        onClose={() => setIsBillModalOpen(false)}
+        cartItems={cartItems}
+        onCancelOrder={handleBillCancel}
       />
 
       {/* Profile modal */}

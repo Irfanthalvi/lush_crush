@@ -18,8 +18,14 @@ const ItemDrawer = ({
   onCancel,
   isMobile,
 }) => {
+  const ITEM_BASE_PRICE = 390;
   const cartList = Object.values(cartItems || {}).filter((c) => c.count > 0);
   const totalItems = cartList.reduce((sum, c) => sum + c.count, 0);
+
+  const subtotal = cartList.reduce((sum, c) => {
+    const price = c.item?.price || ITEM_BASE_PRICE;
+    return sum + price * c.count;
+  }, 0);
 
   if (!open) return null;
 
@@ -30,7 +36,7 @@ const ItemDrawer = ({
         {/* Backdrop */}
         <div
           className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-          onClick={onCancel}
+          onClick={onClose}
         />
 
         {/* Bottom Sheet */}
@@ -56,7 +62,7 @@ const ItemDrawer = ({
             <div className="flex items-center gap-2">
               <ShoppingCart data-cart-icon size={20} className="text-primary transition-transform duration-200" />
               <h2 className="text-lg font-bold font-monstrat-hadding text-foreground">
-                Cart
+                Cart Items
               </h2>
               {totalItems > 0 && (
                 <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-bold">
@@ -65,7 +71,7 @@ const ItemDrawer = ({
               )}
             </div>
             <button
-              onClick={onCancel}
+              onClick={onClose}
               className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
             >
               <X size={18} />
@@ -88,7 +94,9 @@ const ItemDrawer = ({
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold font-monstrat-hadding truncate">{item.title}</p>
-                <p className="text-xs text-muted-foreground truncate">{item.label}</p>
+                <p className="text-xs text-primary font-mono font-bold">
+                  Rs. {item.price || ITEM_BASE_PRICE}
+                </p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button
@@ -121,84 +129,100 @@ const ItemDrawer = ({
               </div>
             ) : (
               <div className="p-4">
-                <div className="grid grid-cols-[2fr_1fr_auto] gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide border-b border-border mb-1">
+                <div className="grid grid-cols-[2fr_1fr_1fr_auto] gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide border-b border-border mb-1">
                   <span>Item</span>
                   <span className="text-center">Qty</span>
-                  <span className="w-8" />
+                  <span className="text-right">Price</span>
+                  <span className="w-6" />
                 </div>
                 <div className="space-y-1">
-                  {cartList.map(({ item: cartItem, count }) => (
-                    <div
-                      key={cartItem.id}
-                      className={`
-                        grid grid-cols-[2fr_1fr_auto] gap-2 items-center
-                        px-3 py-2.5 rounded-lg transition-colors
-                        ${item?.id === cartItem.id ? "bg-accent/60 border border-border" : "hover:bg-muted/60"}
-                      `}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="h-9 w-9 rounded-md overflow-hidden border border-border flex-shrink-0">
-                          <img
-                            src={cartItem.img}
-                            alt={cartItem.title}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.onerror = null;
-                              e.currentTarget.src = "/fallback-image.png";
-                            }}
-                          />
+                  {cartList.map(({ item: cartItem, count }) => {
+                    const itemPrice = cartItem.price || ITEM_BASE_PRICE;
+                    return (
+                      <div
+                        key={cartItem.id}
+                        className={`
+                          grid grid-cols-[2fr_1fr_1fr_auto] gap-2 items-center
+                          px-3 py-2.5 rounded-lg transition-colors
+                          ${item?.id === cartItem.id ? "bg-accent/60 border border-border" : "hover:bg-muted/60"}
+                        `}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="h-8 w-8 rounded-md overflow-hidden border border-border flex-shrink-0">
+                            <img
+                              src={cartItem.img}
+                              alt={cartItem.title}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = "/fallback-image.png";
+                              }}
+                            />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold font-monstrat-hadding truncate leading-tight">{cartItem.title}</p>
+                            <p className="text-[10px] text-muted-foreground">Rs. {itemPrice} ea</p>
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium font-monstrat-hadding truncate leading-tight">{cartItem.title}</p>
-                          <p className="text-xs text-muted-foreground truncate">{cartItem.label}</p>
+                        <div className="flex items-center justify-center gap-1">
+                          <button
+                            onClick={() => onDecrement(cartItem)}
+                            disabled={count <= 0}
+                            className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted disabled:opacity-40 transition-colors text-xs"
+                          >
+                            <Minus size={10} />
+                          </button>
+                          <span className="w-4 text-center font-bold text-xs">{count}</span>
+                          <button
+                            onClick={() => onIncrement(cartItem)}
+                            className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted transition-colors text-xs"
+                          >
+                            <Plus size={10} />
+                          </button>
+                        </div>
+                        <div className="text-right font-mono font-semibold text-xs text-foreground">
+                          Rs. {itemPrice * count}
+                        </div>
+                        <div className="w-6 flex justify-end">
+                          <button
+                            onClick={() => onRemove(cartItem)}
+                            className="h-6 w-6 flex items-center justify-center rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+                          >
+                            <Trash2 size={12} />
+                          </button>
                         </div>
                       </div>
-                      <div className="flex items-center justify-center gap-1.5">
-                        <button
-                          onClick={() => onDecrement(cartItem)}
-                          disabled={count <= 0}
-                          className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted disabled:opacity-40 transition-colors text-xs"
-                        >
-                          <Minus size={10} />
-                        </button>
-                        <span className="w-5 text-center font-bold text-sm">{count}</span>
-                        <button
-                          onClick={() => onIncrement(cartItem)}
-                          className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted transition-colors text-xs"
-                        >
-                          <Plus size={10} />
-                        </button>
-                      </div>
-                      <div className="w-8 flex justify-end">
-                        <button
-                          onClick={() => onRemove(cartItem)}
-                          className="h-6 w-6 flex items-center justify-center rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Footer - Done / Cancel */}
-          <div className="flex-shrink-0 flex gap-3 px-5 py-4 border-t border-border bg-background">
-            <Button
-              variant="outline"
-              className="flex-1 font-monstrat-hadding"
-              onClick={onCancel}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="flex-1 font-monstrat-hadding"
-              onClick={onDone}
-            >
-              Done
-            </Button>
+          {/* Footer Subtotal + Actions */}
+          <div className="flex-shrink-0 p-4 border-t border-border bg-background space-y-3">
+            {cartList.length > 0 && (
+              <div className="flex items-center justify-between px-2 text-sm">
+                <span className="text-muted-foreground">Subtotal ({totalItems} items):</span>
+                <span className="font-mono font-bold text-base text-primary">Rs. {subtotal}</span>
+              </div>
+            )}
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1 font-monstrat-hadding border-destructive/30 text-destructive hover:bg-destructive/10"
+                onClick={onCancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="flex-1 font-monstrat-hadding bg-primary text-primary-foreground"
+                onClick={onDone}
+                disabled={cartList.length === 0}
+              >
+                Done
+              </Button>
+            </div>
           </div>
         </div>
       </>
@@ -211,7 +235,7 @@ const ItemDrawer = ({
       {/* Backdrop - only on small screens */}
       <div
         className="fixed inset-0 z-20 bg-black/20 md:hidden"
-        onClick={onCancel}
+        onClick={onClose}
       />
 
       {/* Drawer Panel */}
@@ -219,7 +243,7 @@ const ItemDrawer = ({
         className={`
           fixed top-[75px] right-0 bottom-0 z-20
           w-full sm:w-[420px]
-          bg-background/90 border-l border-border
+          bg-background border-l border-border
           flex flex-col
           shadow-2xl
           transition-transform duration-300 ease-in-out
@@ -231,7 +255,7 @@ const ItemDrawer = ({
           <div className="flex items-center gap-2">
             <ShoppingCart data-cart-icon size={20} className="text-primary transition-transform duration-200" />
             <h2 className="text-lg font-bold font-monstrat-hadding text-foreground">
-              Cart
+              Cart Items
             </h2>
             {totalItems > 0 && (
               <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-bold">
@@ -240,7 +264,7 @@ const ItemDrawer = ({
             )}
           </div>
           <button
-            onClick={onCancel}
+            onClick={onClose}
             className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors"
           >
             <X size={18} />
@@ -263,7 +287,9 @@ const ItemDrawer = ({
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold font-monstrat-hadding truncate">{item.title}</p>
-              <p className="text-xs text-muted-foreground truncate">{item.label}</p>
+              <p className="text-xs text-primary font-mono font-bold">
+                Rs. {item.price || ITEM_BASE_PRICE}
+              </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
@@ -296,84 +322,100 @@ const ItemDrawer = ({
             </div>
           ) : (
             <div className="p-4">
-              <div className="grid grid-cols-[2fr_1fr_auto] gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide border-b border-border mb-1">
+              <div className="grid grid-cols-[2.2fr_1fr_1fr_auto] gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide border-b border-border mb-1">
                 <span>Item</span>
                 <span className="text-center">Qty</span>
-                <span className="w-8" />
+                <span className="text-right">Total</span>
+                <span className="w-6" />
               </div>
               <div className="space-y-1">
-                {cartList.map(({ item: cartItem, count }) => (
-                  <div
-                    key={cartItem.id}
-                    className={`
-                      grid grid-cols-[2fr_1fr_auto] gap-2 items-center
-                      px-3 py-2.5 rounded-lg transition-colors
-                      ${item?.id === cartItem.id ? "bg-accent/60 border border-border" : "hover:bg-muted/60"}
-                    `}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="h-9 w-9 rounded-md overflow-hidden border border-border flex-shrink-0">
-                        <img
-                          src={cartItem.img}
-                          alt={cartItem.title}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src = "/fallback-image.png";
-                          }}
-                        />
+                {cartList.map(({ item: cartItem, count }) => {
+                  const itemPrice = cartItem.price || ITEM_BASE_PRICE;
+                  return (
+                    <div
+                      key={cartItem.id}
+                      className={`
+                        grid grid-cols-[2.2fr_1fr_1fr_auto] gap-2 items-center
+                        px-3 py-2.5 rounded-lg transition-colors
+                        ${item?.id === cartItem.id ? "bg-accent/60 border border-border" : "hover:bg-muted/60"}
+                      `}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="h-9 w-9 rounded-md overflow-hidden border border-border flex-shrink-0">
+                          <img
+                            src={cartItem.img}
+                            alt={cartItem.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = "/fallback-image.png";
+                            }}
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-semibold font-monstrat-hadding truncate leading-tight">{cartItem.title}</p>
+                          <p className="text-[11px] text-muted-foreground font-mono">Rs. {itemPrice}</p>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium font-monstrat-hadding truncate leading-tight">{cartItem.title}</p>
-                        <p className="text-xs text-muted-foreground truncate">{cartItem.label}</p>
+                      <div className="flex items-center justify-center gap-1.5">
+                        <button
+                          onClick={() => onDecrement(cartItem)}
+                          disabled={count <= 0}
+                          className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted disabled:opacity-40 transition-colors text-xs"
+                        >
+                          <Minus size={10} />
+                        </button>
+                        <span className="w-4 text-center font-bold text-sm">{count}</span>
+                        <button
+                          onClick={() => onIncrement(cartItem)}
+                          className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted transition-colors text-xs"
+                        >
+                          <Plus size={10} />
+                        </button>
+                      </div>
+                      <div className="text-right font-mono font-bold text-xs text-foreground">
+                        Rs. {itemPrice * count}
+                      </div>
+                      <div className="w-6 flex justify-end">
+                        <button
+                          onClick={() => onRemove(cartItem)}
+                          className="h-6 w-6 flex items-center justify-center rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+                        >
+                          <Trash2 size={13} />
+                        </button>
                       </div>
                     </div>
-                    <div className="flex items-center justify-center gap-1.5">
-                      <button
-                        onClick={() => onDecrement(cartItem)}
-                        disabled={count <= 0}
-                        className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted disabled:opacity-40 transition-colors text-xs"
-                      >
-                        <Minus size={10} />
-                      </button>
-                      <span className="w-5 text-center font-bold text-sm">{count}</span>
-                      <button
-                        onClick={() => onIncrement(cartItem)}
-                        className="h-6 w-6 flex items-center justify-center rounded-full border border-border hover:bg-muted transition-colors text-xs"
-                      >
-                        <Plus size={10} />
-                      </button>
-                    </div>
-                    <div className="w-8 flex justify-end">
-                      <button
-                        onClick={() => onRemove(cartItem)}
-                        className="h-6 w-6 flex items-center justify-center rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
         </div>
 
-        {/* Footer - Done / Cancel */}
-        <div className="flex-shrink-0 flex gap-3 px-5 py-4 border-t border-border bg-background">
-          <Button
-            variant="outline"
-            className="flex-1 font-monstrat-hadding"
-            onClick={onCancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="flex-1 font-monstrat-hadding"
-            onClick={onDone}
-          >
-            Done
-          </Button>
+        {/* Footer Subtotal + Actions */}
+        <div className="flex-shrink-0 p-5 border-t border-border bg-background space-y-4">
+          {cartList.length > 0 && (
+            <div className="flex items-center justify-between px-1 text-sm">
+              <span className="text-muted-foreground">Subtotal ({totalItems} items):</span>
+              <span className="font-mono font-bold text-lg text-primary">Rs. {subtotal}</span>
+            </div>
+          )}
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              className="flex-1 font-monstrat-hadding border-destructive/40 text-destructive hover:bg-destructive/10"
+              onClick={onCancel}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="flex-1 font-monstrat-hadding bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={onDone}
+              disabled={cartList.length === 0}
+            >
+              Done
+            </Button>
+          </div>
         </div>
       </div>
     </>

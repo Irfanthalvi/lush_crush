@@ -5,6 +5,7 @@ import LoadingBar from "react-top-loading-bar";
 import { Provider } from "react-redux";
 import store from "@/lib/store";
 import NotFound from "@/components/subject/not-found";
+import { Toaster } from "react-hot-toast";
 
 // Lazy loaded components
 const AuthLayout = lazy(() => import("@/layouts/auth-layout.jsx"));
@@ -127,6 +128,7 @@ function App() {
   const loadingBarRef = useRef(null);
   return (
     <Provider store={store}>
+      <Toaster position="top-right" reverseOrder={false} toastOptions={{ duration: 3000 }} />
       <Router>
         <LoadingBar color="var(--primary)" ref={loadingBarRef} height={2} shadow={true} />
         <AppRoutes loadingBarRef={loadingBarRef} />
