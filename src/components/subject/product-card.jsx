@@ -37,11 +37,11 @@ const ProductCard = ({ subject }) => {
     <div
       onClick={handleClick}
       className={`
-        group bg-card text-card-foreground border rounded-md flex flex-col
-        transition-all duration-300 ease-in-out overflow-hidden cursor-pointer
+        group bg-card text-card-foreground border rounded-xl flex flex-col
+        transition-all duration-300 ease-in-out overflow-hidden cursor-pointer shadow-xs hover:shadow-md
         ${count > 0
-          ? "border-primary ring-1 ring-primary"
-          : "border-border"
+          ? "border-primary ring-2 ring-primary/40"
+          : "border-border hover:border-muted-foreground/30"
         }
       `}
     >

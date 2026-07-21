@@ -128,7 +128,22 @@ function App() {
   const loadingBarRef = useRef(null);
   return (
     <Provider store={store}>
-      <Toaster position="top-right" reverseOrder={false} toastOptions={{ duration: 3000 }} />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "var(--popover)",
+            color: "var(--popover-foreground)",
+            border: "1px solid var(--border)",
+            borderRadius: "0.75rem",
+            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
+            fontFamily: "var(--font-monstrat-hadding)",
+            fontSize: "0.875rem",
+          },
+        }}
+      />
       <Router>
         <LoadingBar color="var(--primary)" ref={loadingBarRef} height={2} shadow={true} />
         <AppRoutes loadingBarRef={loadingBarRef} />

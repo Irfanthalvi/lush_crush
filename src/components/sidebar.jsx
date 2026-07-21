@@ -57,8 +57,8 @@ function SortableSidebarItem({ item, isSidebarOpen, closeSidebar }) {
         className={({ isActive }) =>
           `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
            ${isActive
-            ? "bg-accent text-accent-foreground"
-            : "hover:bg-muted hover:text-foreground"
+            ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold shadow-xs"
+            : "text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
           }`
         }
       >
@@ -109,7 +109,7 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-50 h-full bg-background border-r border-border flex flex-col transition-all duration-300
+      className={`fixed top-0 left-0 z-50 h-full bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col transition-all duration-300
         ${isMobile
           ? isSidebarOpen
             ? "translate-x-0 w-full max-w-[500px]"
@@ -121,14 +121,14 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
       `}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 h-[75px] border-b border-border">
+      <div className="flex items-center justify-between px-4 h-[75px] border-b border-sidebar-border">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-muted rounded-lg border border-border shrink-0">
+          <div className="p-2 bg-sidebar-accent rounded-lg border border-sidebar-border shrink-0 text-sidebar-foreground">
             <Layers size={24} />
           </div>
           {isSidebarOpen && !isMobile && (
-            <span className="font-monstrat-hadding text-lg font-semibold whitespace-nowrap overflow-hidden">
-              LUSH CRUSH <span className="text-[#D0021B]"></span>
+            <span className="font-monstrat-hadding text-lg font-semibold whitespace-nowrap overflow-hidden text-sidebar-foreground">
+              LUSH CRUSH
             </span>
           )}
         </div>

@@ -42,13 +42,13 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
           onClick={toggleTheme}
           id="theme-toggle-btn"
           aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          className="shrink-0 rounded-full border-border"
-          title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+          className="shrink-0 rounded-full border-border hover:bg-accent hover:text-accent-foreground"
+          title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
         >
           {theme === "dark" ? (
-            <Sun size={18} className="text-yellow-400" />
+            <Sun size={18} className="text-amber-400 fill-amber-400/20" />
           ) : (
-            <Moon size={18} className="text-slate-600" />
+            <Moon size={18} className="text-foreground" />
           )}
         </Button>
 
@@ -57,26 +57,26 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-muted"
+              className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-accent hover:text-accent-foreground"
             >
               <Avatar className="h-10 w-10 border border-border">
                 <AvatarImage src={profile.image || "/images/profile.png"} />
-                <AvatarFallback>U</AvatarFallback>
+                <AvatarFallback className="bg-muted text-muted-foreground font-bold">U</AvatarFallback>
               </Avatar>
-              <span className="hidden md:flex items-center text-sm font-medium max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap font-monstrat-hadding">
+              <span className="hidden md:flex items-center text-sm font-medium text-foreground max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap font-monstrat-hadding">
                 {profile.name}
-                <FaChevronDown className="ml-1" />
+                <FaChevronDown className="ml-1 text-muted-foreground" />
               </span>
             </Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
             align="end"
-            className="w-44 rounded-md border border-border bg-background shadow-md"
+            className="w-44 rounded-md border border-border bg-popover text-popover-foreground shadow-md"
           >
             <DropdownMenuItem
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer focus:bg-accent focus:text-accent-foreground"
             >
               <CgProfile size={18} />
               Profile
@@ -84,7 +84,7 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
 
             <DropdownMenuItem
               onClick={() => (window.location.href = "/setting")}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer focus:bg-accent focus:text-accent-foreground"
             >
               <Settings size={18} />
               Settings
@@ -94,7 +94,7 @@ const Topbar = ({ toggleSidebar, setIsModalOpen, profile }) => {
 
             <DropdownMenuItem
               onClick={() => (window.location.href = "/login")}
-              className="flex items-center gap-2 text-destructive cursor-pointer"
+              className="flex items-center gap-2 text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
             >
               <LogOut size={18} />
               Logout

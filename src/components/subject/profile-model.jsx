@@ -59,11 +59,11 @@ const ProfileModal = ({ setIsModalOpen, setProfile }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4 sm:px-6"
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4 sm:px-6 animate-in fade-in duration-200"
       onClick={handleClose}
     >
       <div
-        className="bg-background border border-border rounded-2xl shadow-lg w-full max-w-xl max-h-[90vh] overflow-y-auto p-6 space-y-6"
+        className="bg-card text-card-foreground border border-border rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-6 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div>

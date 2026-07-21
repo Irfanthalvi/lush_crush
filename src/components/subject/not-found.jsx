@@ -18,7 +18,7 @@ const NotFound = () => {
         </p>
         <Button
           onClick={() => navigate("/")}
-          className="text-background px-6 py-2 bg-foreground"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2"
         >
           Go to Homepage
         </Button>
