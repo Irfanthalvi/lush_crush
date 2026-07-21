@@ -54,7 +54,7 @@ const ItemDrawer = ({
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-3 border-b border-border flex-shrink-0">
             <div className="flex items-center gap-2">
-              <ShoppingCart size={20} className="text-primary" />
+              <ShoppingCart data-cart-icon size={20} className="text-primary transition-transform duration-200" />
               <h2 className="text-lg font-bold font-monstrat-hadding text-foreground">
                 Cart
               </h2>
@@ -229,7 +229,7 @@ const ItemDrawer = ({
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border flex-shrink-0">
           <div className="flex items-center gap-2">
-            <ShoppingCart size={20} className="text-primary" />
+            <ShoppingCart data-cart-icon size={20} className="text-primary transition-transform duration-200" />
             <h2 className="text-lg font-bold font-monstrat-hadding text-foreground">
               Cart
             </h2>

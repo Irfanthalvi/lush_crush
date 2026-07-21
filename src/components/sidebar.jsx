@@ -1,8 +1,112 @@
 "use client";
+import React, { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Layers, NotebookPen, List, Popsicle, Lollipop, Beaker, CupSoda, PillBottle, Sandwich, Cake, Gift } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+const INITIAL_NAV_ITEMS = [
+  { id: "creamy-range", to: "/creamy-range-popsicles", label: "Creamy-Range-Popsicles", Icon: NotebookPen },
+  { id: "icy-range", to: "/icy-range-popsicles", label: "Icy-Range-Popsicles", Icon: Lollipop },
+  { id: "cake-popsicles", to: "/cake-popsicles", label: "Cake-Popsicles", Icon: Popsicle },
+  { id: "greek-yogurt", to: "/greek-yogurt-popsicles", label: "Greek-Yogurt-Popsicles", Icon: Lollipop },
+  { id: "fruity-blitz", to: "/fruity-blitz-popsicles", label: "Fruity-Blitz-Popsicles", Icon: Popsicle },
+  { id: "sugar-free", to: "/sugar-free-popsicles", label: "Sugar-Free-Popsicles", Icon: Lollipop },
+  { id: "probiotics", to: "/probiotics-popsicles", label: "Probiotics-Popsicles", Icon: Popsicle },
+  { id: "cup-for-one", to: "/cup-for-one", label: "Cup-For-One", Icon: CupSoda },
+  { id: "tubs", to: "/tubs", label: "Tubs", Icon: Beaker },
+  { id: "jars", to: "/jars", label: "Jars", Icon: PillBottle },
+  { id: "sandwich", to: "/sandwich", label: "Sandwich", Icon: Sandwich },
+  { id: "ice-cream-cakes", to: "/ice-cream-cakes", label: "Ice-Cream-Cakes", Icon: Cake },
+  { id: "boxes", to: "/boxes", label: "Boxes", Icon: Gift },
+  { id: "deals-for-all", to: "/deals-for-all", label: "Deals-For-All", Icon: List },
+];
+
+function SortableSidebarItem({ item, isSidebarOpen, closeSidebar }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: item.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : undefined,
+    opacity: isDragging ? 0.85 : 1,
+    touchAction: "none",
+  };
+
+  const IconComponent = item.Icon;
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <NavLink
+        to={item.to}
+        onClick={closeSidebar}
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
+           ${isActive
+            ? "bg-accent text-accent-foreground"
+            : "hover:bg-muted hover:text-foreground"
+          }`
+        }
+      >
+        <IconComponent size={20} className="shrink-0" />
+        {isSidebarOpen && <span className="truncate">{item.label}</span>}
+      </NavLink>
+    </div>
+  );
+}
 
 const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
+  const [items, setItems] = useState(INITIAL_NAV_ITEMS);
+  const navRef = useRef(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
+
+  // Boundary modifier: strictly limits dragging inside <nav> container bounds and locks x axis
+  const restrictToNavContainer = ({ transform, draggingNodeRect }) => {
+    if (!draggingNodeRect || !navRef.current) {
+      return { ...transform, x: 0 };
+    }
+    const containerRect = navRef.current.getBoundingClientRect();
+    const minY = containerRect.top - draggingNodeRect.top;
+    const maxY = containerRect.bottom - draggingNodeRect.bottom;
+
+    return {
+      x: 0,
+      y: Math.max(minY, Math.min(maxY, transform.y)),
+    };
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setItems((prevItems) => {
+        const oldIndex = prevItems.findIndex((i) => i.id === active.id);
+        const newIndex = prevItems.findIndex((i) => i.id === over.id);
+        return arrayMove(prevItems, oldIndex, newIndex);
+      });
+    }
+  };
+
   return (
     <aside
       className={`fixed top-0 left-0 z-50 h-full bg-background border-r border-border flex flex-col transition-all duration-300
@@ -40,207 +144,31 @@ const Sidebar = ({ isSidebarOpen, isMobile, toggleSidebar, closeSidebar }) => {
       </div>
 
       {/* Links */}
-      <nav className="flex-1 px-1 py-4 space-y-2 overflow-y-auto">
-        <NavLink
-          to="/creamy-range-popsicles"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
+      <nav ref={navRef} className="flex-1 px-1 py-4 space-y-2 overflow-y-auto relative">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          modifiers={[restrictToNavContainer]}
+          onDragEnd={handleDragEnd}
         >
-          <NotebookPen size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Creamy-Range-Popsicles</span>}
-        </NavLink>
-
-        <NavLink
-          to="/icy-range-popsicles"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Lollipop size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Icy-Range-Popsicles</span>}
-        </NavLink>
-        <NavLink
-          to="/cake-popsicles"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Popsicle size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Cake-Popsicles</span>}
-        </NavLink>
-        <NavLink
-          to="/greek-yogurt-popsicles"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Lollipop size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Greek-Yogurt-Popsicles</span>}
-        </NavLink>
-        <NavLink
-          to="/fruity-blitz-popsicles"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Popsicle size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Fruity-Blitz-Popsicles</span>}
-        </NavLink>
-        <NavLink
-          to="/sugar-free-popsicles"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Lollipop size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Sugar-Free-Popsicles</span>}
-        </NavLink>
-        <NavLink
-          to="/probiotics-popsicles"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Popsicle size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Probiotics-Popsicles</span>}
-        </NavLink>
-        <NavLink
-          to="/cup-for-one"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <CupSoda size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Cup-For-One</span>}
-        </NavLink>
-        <NavLink
-          to="/tubs"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Beaker size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Tubs</span>}
-        </NavLink>
-        <NavLink
-          to="/jars"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <PillBottle size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Jars</span>}
-        </NavLink>
-        <NavLink
-          to="/sandwich"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Sandwich size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Sandwich</span>}
-        </NavLink>
-        <NavLink
-          to="/ice-cream-cakes"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Cake size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Ice-Cream-Cakes</span>}
-        </NavLink>
-        <NavLink
-          to="/boxes"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <Gift size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Boxes</span>}
-        </NavLink>
-        <NavLink
-          to="/deals-for-all"
-          onClick={closeSidebar}
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium font-monstrat-hadding transition-colors whitespace-nowrap overflow-hidden
-             ${isActive
-              ? "bg-accent text-accent-foreground"
-              : "hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <List size={20} className="shrink-0" />
-          {isSidebarOpen && <span className="truncate">Deals-For-All</span>}
-        </NavLink>
+          <SortableContext
+            items={items.map((i) => i.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {items.map((item) => (
+              <SortableSidebarItem
+                key={item.id}
+                item={item}
+                isSidebarOpen={isSidebarOpen}
+                closeSidebar={closeSidebar}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
       </nav>
     </aside>
   );
 };
 
 export default Sidebar;
+

@@ -116,12 +116,12 @@ const DashboardLayout = ({ children }) => {
         />
       )}
 
-      {/* Main content */}
-      <main
-        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ${mainMargin} ${!isMobile && drawerOpen ? 'mr-[420px]' : ''}`}
+      {/* Main content wrapper */}
+      <div
+        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ${mainMargin}`}
       >
-        {/* Topbar */}
-        <div className="sticky top-0 z-30 bg-background border-b">
+        {/* Topbar: Fixed position & size, unaffected by drawer open/close */}
+        <div className="sticky top-0 z-30 bg-background border-b w-full">
           <Topbar
             toggleSidebar={toggleSidebar}
             dropdownRef={dropdownRef}
@@ -133,10 +133,12 @@ const DashboardLayout = ({ children }) => {
           />
         </div>
 
-        {/* Scrollable page */}
-        <div className="flex-1 overflow-y-auto">
+        {/* Content area: Resizes when drawer opens */}
+        <div
+          className={`flex-1 transition-all duration-300 ${!isMobile && drawerOpen ? 'mr-[420px]' : ''}`}
+        >
           {loading ? (
-            <div className="h-full flex items-center justify-center text-muted-foreground">
+            <div className="h-full flex items-center justify-center text-muted-foreground py-20">
               <Loader className="w-6 h-6 mr-2 animate-spin" />
               Loading page...
             </div>
@@ -144,11 +146,12 @@ const DashboardLayout = ({ children }) => {
             children || <Outlet />
           )}
         </div>
-      </main>
+      </div>
 
       {/* ── Mobile FAB: Floating "Done" button ──────────────────────────────── */}
       {isMobile && totalCartCount > 0 && !drawerOpen && (
         <button
+          data-fab-cart
           onClick={handleFabClick}
           className="
             fixed bottom-6 right-5 z-50
